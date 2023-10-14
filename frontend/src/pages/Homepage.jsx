@@ -1,9 +1,10 @@
 import React from 'react';
-import AuthModal from '../components/Modal/authModal.jsx'
+import Layout from '../components/Layout/Layout';
+
 const Homepage = () => {
   return (
     <div>
-      <AuthModal/>
+      <Layout/>
     </div>
   );
 }
