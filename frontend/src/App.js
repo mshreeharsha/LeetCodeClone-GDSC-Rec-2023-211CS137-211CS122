@@ -10,6 +10,7 @@ function App() {
       <Route path='/user' element={<Private/>}>
            
       </Route>
+
       <Route path='/login' element = {<Login/>}/>
     </Routes>
     
