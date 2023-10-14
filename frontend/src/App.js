@@ -9,6 +9,8 @@ function App() {
       <Route path='/user' element={<Private/>}>
            
       </Route>
+
+      <Route></Route>
     </Routes>
     
   );
