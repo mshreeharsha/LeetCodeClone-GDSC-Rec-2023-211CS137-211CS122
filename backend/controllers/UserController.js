@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken')
 
 //Function to Generate Json Web Token
 const createToken=(_id)=>{
-  console.log("here")
   return jwt.sign({_id},process.env.JWT_TOKEN,{expiresIn: '3d'});
 }
 
@@ -57,8 +56,45 @@ const registerController=async(req,res)=>{
   }
 };
 
-const loginController =()=>{
-  
+const loginController = async(req,res)=>{
+  try{
+    const {email, password} = req.body;
+    if(!email)
+      return res.send({success:false,message:'Email is not entered'}) //checking if email is entered
+    if(!password)
+      return res.send({success:false,message:'Password is not entered'}) //checking if password is entered
+
+    //Checking if the User is registered or not
+    const user=await UserModel.findOne({email})
+    if(!user){
+      return res.send({success:false,message:'Email Not Found!! Please Register!!'})
+    }
+
+    //Comparing the Stored Password with the user entered Password
+    const match = await bcrypt.compareSync(password,user.password)
+
+    if(!match){
+      return res.send({success:false,message:'Incorrect Password!!'})
+    }
+
+    const token=createToken(user._id);
+    res.status(201).send({
+        success:true,
+        message:'User Logged in Successfully',
+        user:{
+          username:user.username,
+          email:user.email,
+        },
+        token:token
+    })
+  }
+  catch(error){
+    res.status(404).send({
+      success: false,
+      message: "Login failed",
+      error: error.message,
+    });
+  }
 }
 
 module.exports={registerController,loginController}

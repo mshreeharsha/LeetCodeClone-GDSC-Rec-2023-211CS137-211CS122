@@ -6,6 +6,4 @@ const {registerController,loginController}=require('../controllers/UserControlle
 router.post('/register',registerController)
 router.post('/login',loginController)
 
-
-
 module.exports=router
