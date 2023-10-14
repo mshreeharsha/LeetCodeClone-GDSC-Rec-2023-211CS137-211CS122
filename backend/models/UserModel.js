@@ -17,6 +17,10 @@ const UserSchema=Schema({
         type:mongoose.ObjectId,
         ref:'Problem'      //store id of solved problems of the user
     }],
+    attemptedProblems:[{
+        type:mongoose.ObjectId,
+        ref:'Problem'  //store id of attempted problems
+    }]
 },{timestamps:true}) // timestamps give the time when the user object was created
 
 const model=Model('User',UserSchema) //Model name is User and the schema for the model is UserSchema
