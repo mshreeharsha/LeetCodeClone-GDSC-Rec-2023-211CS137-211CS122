@@ -14,6 +14,9 @@ const cors=require('cors')
 //cors is used to avoid cross origin resource sharing error. 
 //Tell the server from which websites API requests are valid
 
+const userRoutes=require('./routes/UserRoute')
+
+
 const app=express()
 
 dotenv.config();
@@ -32,6 +35,10 @@ app.use(express.json())
 
 app.use(morgan('dev'))
 app.use(cors({credentials:true,origin:process.env.FRONTEND_URL}))
+
+//routes
+app.use('/api/user',userRoutes)
+
 
 
 const PORT=process.env.PORT||5000;
