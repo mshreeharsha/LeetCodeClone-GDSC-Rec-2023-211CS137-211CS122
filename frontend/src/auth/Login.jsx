@@ -12,15 +12,15 @@ const Login = () => {
 
   //Form Submit Handling
   const handleSubmit = async(e)=>{
-    e.preventdefault()
-
+    e.preventDefault();
     try{
-      const response = await axios.post("",{
+      const response = await axios.post("http://localhost:5000/api/user/login",{
         email,
         password
       })
 
       if(response.data.success){
+        console.log(response)
         setAuth({
           ...auth,
           user: response.data.user,
@@ -35,11 +35,11 @@ const Login = () => {
         navigate(location.state || "/");
       }
       else{
-
+        console.log(response.data.message)
       }
     }
     catch(error){
-
+      console.log("Some error")
     }
   }
 
