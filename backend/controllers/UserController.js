@@ -1,15 +1,22 @@
 const UserModel=require('../models/UserModel')
-const bcrypt=require('bcrypt')
+const bcrypt=require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
+//Function to Generate Json Web Token
+const createToken=(_id)=>{
+  console.log("here")
+  return jwt.sign({_id},process.env.JWT_TOKEN,{expiresIn: '3d'});
+}
 
 const registerController=async(req,res)=>{
-    try {
+  try {
     const {username, email, password} = req.body;
     if(!username)
-    return res.send({success:false,message:'Username is not entered'}) //checking if username is entered
+      return res.send({success:false,message:'Username is not entered'}) //checking if username is entered
     if(!email)
-    return res.send({success:false,message:'Email is not entered'}) //checking if email is entered
+      return res.send({success:false,message:'Email is not entered'}) //checking if email is entered
     if(!password)
-    return res.send({success:false,message:'Password is not entered'}) //checking if password is entered
+      return res.send({success:false,message:'Password is not entered'}) //checking if password is entered
 
     const existingUser=await UserModel.findOne({email:email}) 
     if(existingUser) //Does not allow same email to be registered again
@@ -21,7 +28,7 @@ const registerController=async(req,res)=>{
     }
 
     // Hash the password using bcrypt module (encoding password)
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hashSync(password, 10);
     
     // Save the user to the database
     const newUser = await new UserModel({
@@ -30,6 +37,8 @@ const registerController=async(req,res)=>{
       password: hashedPassword,
     }).save();  //creating a user object to be sent to the client side
 
+    //Creating a Token
+    const token=createToken(newUser._id);
     res.status(201).send({
       success: true,
       message: "Successfully registered",
@@ -37,6 +46,7 @@ const registerController=async(req,res)=>{
         username:newUser.username,
         email:newUser.email,
       },
+      token: token
     });
   } catch (error) {
     res.status(404).send({
@@ -47,5 +57,8 @@ const registerController=async(req,res)=>{
   }
 };
 
+const loginController =()=>{
+  
+}
 
-module.exports={registerController}
+module.exports={registerController,loginController}
