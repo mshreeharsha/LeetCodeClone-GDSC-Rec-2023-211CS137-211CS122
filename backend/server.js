@@ -34,7 +34,10 @@ app.use(express.json())
 //express.json is used to parse the request bodies of POST request
 
 app.use(morgan('dev'))
-app.use(cors({credentials:true,origin:process.env.FRONTEND_URL}))
+// app.use(cors({
+//   origin: process.env.FRONTEND_URL, // Allow all origins to access
+//   credentials: true, // Enable credentials (cookies, authorization headers)
+// }));
 
 //routes
 app.use('/api/user',userRoutes)
