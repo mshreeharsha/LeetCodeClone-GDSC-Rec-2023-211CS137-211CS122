@@ -1,5 +1,5 @@
 const mongoose=require('mongoose') 
-const {Schema,Model}=mongoose
+const {Schema,model}=mongoose
 const UserSchema=Schema({
     username:{
         type:String,
@@ -23,5 +23,5 @@ const UserSchema=Schema({
     }]
 },{timestamps:true}) // timestamps give the time when the user object was created
 
-const model=Model('User',UserSchema) //Model name is User and the schema for the model is UserSchema
-module.exports=model; //exporting the model to be available outside this file
+const userModel=model('User',UserSchema) //Model name is User and the schema for the model is UserSchema
+module.exports=userModel; //exporting the model to be available outside this file
