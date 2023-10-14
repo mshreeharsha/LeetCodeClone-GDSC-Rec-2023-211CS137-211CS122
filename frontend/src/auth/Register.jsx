@@ -1,8 +1,10 @@
 import {useEffect,useState} from 'react';
 import axios from 'axios'
 import {baseUrl} from '../baseUrl.js'
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate()
   const [user,setUser]=useState({
     username:'',
     email:'',
@@ -25,6 +27,7 @@ const Register = () => {
           email:'',
           password:''
         })
+        navigate('/login')
       }
       else{
         alert(data.message)
