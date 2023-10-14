@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken')
 
 //Function to Generate Json Web Token
 const createToken=(_id)=>{
-  console.log("here")
   return jwt.sign({_id},process.env.JWT_TOKEN,{expiresIn: '3d'});
 }
 
