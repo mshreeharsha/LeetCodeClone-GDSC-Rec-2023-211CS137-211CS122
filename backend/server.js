@@ -1,9 +1,19 @@
 const express=require('express')
 const dotenv=require('dotenv')
+//dotenv is used to set environement variables and should not be exported to public repositories.
+
 const morgan=require('morgan')
+//morgan prints the list of API requests along with status codes
+// called on the terminal of the backend server 
+//which helps in debugging errors 
 
 const mongoose = require('mongoose');
-const cors=require('cors')
+//mongoose is used for object data modelling. Structure to document databases
+
+const cors=require('cors') 
+//cors is used to avoid cross origin resource sharing error. 
+//Tell the server from which websites API requests are valid
+
 const app=express()
 
 dotenv.config();
@@ -13,10 +23,13 @@ const connect = mongoose.connect(process.env.url,{useNewUrlParser: true}, { useU
 connect.then((db) => {
     console.log("Connected correctly to server");
 }, (err) => { console.log(err); });
+//Connection with the Mongo DB atlas database 
 
 
 //middlewares
 app.use(express.json())
+//express.json is used to parse the request bodies of POST request
+
 app.use(morgan('dev'))
 app.use(cors({credentials:true,origin:process.env.FRONTEND_URL}))
 
@@ -26,5 +39,6 @@ const development=process.env.DEV_MODE;
 app.listen(PORT,()=>{
     console.log(`Server running on ${development} mode on port ${PORT}`);
 })
+//server socket with PORT 5000 listening for requests
 
 
