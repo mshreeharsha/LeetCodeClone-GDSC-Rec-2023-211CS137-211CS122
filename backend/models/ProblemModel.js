@@ -14,6 +14,26 @@ const ProblemSchema=Schema({
         default: "Medium",
         enum: ["Easy", "Medium","Hard"],
     },
+    description:{
+        type:String,
+        required:true
+    },
+    sampleTestCases: [
+        {
+          input: {
+            type: String,
+            required: true,
+          },
+          output: {
+            type: String,
+            required: true,
+          },
+        },
+    ],
+    constraints:[{
+        type: String,
+        required: true,
+    }],
     category:{
         type: mongoose.ObjectId,
         ref: "Category",
