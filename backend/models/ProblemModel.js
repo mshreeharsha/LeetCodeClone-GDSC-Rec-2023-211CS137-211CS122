@@ -37,16 +37,6 @@ const ProblemSchema=Schema({
     category:{
         type: mongoose.ObjectId,
         ref: "Category",
-    },
-    soultion: {
-        type: String,
-        validate: {
-          validator: function (value) {
-            // Use a regular expression to validate YouTube video URLs
-            return /^https:\/\/(www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)$/.test(value);
-          },
-          message: 'Invalid YouTube video link format',
-        },
     }
 })
 
