@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuthContext } from '../context/AuthContext';
 import { useNavigate, useLocation } from "react-router-dom";
 
-const Login = () => {
+const Login = ({setOpen}) => {
   const navigate = useNavigate()
   const location = useLocation();
   const [auth,setAuth] = useAuthContext()
@@ -33,6 +33,8 @@ const Login = () => {
 
         //Navigating back to the place from where the login was called
         navigate(location.state || "/");
+
+        setOpen(false)
       }
       else{
         console.log(response.data.message)

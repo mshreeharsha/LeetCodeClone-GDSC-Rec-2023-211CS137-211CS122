@@ -1,10 +1,13 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { NavLink,Link } from 'react-router-dom'
 import { useAuthContext } from '../../context/AuthContext'
+import AuthModal from '../Modal/authModal'
 
 
 const Header = () => {
   const [auth,setAuth]=useAuthContext()
+  const [type,setType]=useState('')
+  const [open,setOpen]=useState(false)
 
   //handelling Logout Action
   //auth may contain other items other than user and token
@@ -31,14 +34,17 @@ const Header = () => {
                     </Link>
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li className="nav-item">
+                            
                             <NavLink to='/' className="nav-link" aria-current="page" href="#">Home</NavLink>
                         </li>
                         
                         {!auth.user?(<><li className="nav-item">
-                        <NavLink to='/register' className="nav-link" href="#">SignUp</NavLink>
+                            <button onClick={()=>{setType('register');setOpen(true)}}>SignUp</button>
+                        {/* <NavLink to='/register' className="nav-link" href="#">SignUp</NavLink> */}
                         </li>
                         <li className="nav-item">
-                        <NavLink to='/login' className="nav-link" href="#">Login</NavLink>
+                            <button onClick={()=>{setType('login');setOpen(true)}}>Login</button>
+                        {/* <NavLink to='/login' className="nav-link" href="#">Login</NavLink> */}
                         </li></>):(<>
                         <li className="nav-item">
                             <NavLink href="#" className="nav-link">
@@ -46,13 +52,15 @@ const Header = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" onClick={handleLogout} to='/login' href="#">Logout</NavLink>
+                            <button onClick={handleLogout}>Logout</button>
+                            {/* <NavLink className="nav-link" onClick={handleLogout} to='/login' href="#">Logout</NavLink> */}
                         </li>
                         </>)}
                     </ul>
                 </div>
             </div>
         </nav>
+        <AuthModal type={type} open={open} setOpen={setOpen} setType={setType}/>
     </>
   )
 }
