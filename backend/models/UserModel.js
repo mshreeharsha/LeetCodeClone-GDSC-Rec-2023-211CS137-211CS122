@@ -20,7 +20,11 @@ const UserSchema=Schema({
     attemptedProblems:[{
         type:mongoose.ObjectId,
         ref:'Problem'  //store id of attempted problems
-    }]
+    }],
+    role:{
+        type:Number,
+        default :0
+    }
 },{timestamps:true}) // timestamps give the time when the user object was created
 
 const userModel=model('User',UserSchema) //Model name is User and the schema for the model is UserSchema
