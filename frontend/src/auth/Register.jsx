@@ -3,7 +3,7 @@ import axios from 'axios'
 import {baseUrl} from '../baseUrl.js'
 import { useNavigate } from "react-router-dom";
 
-const Register = () => {
+const Register = ({setOpen}) => {
   const navigate = useNavigate()
   const [user,setUser]=useState({
     username:'',
@@ -27,7 +27,7 @@ const Register = () => {
           email:'',
           password:''
         })
-        navigate('/login')
+        setOpen(false)
       }
       else{
         alert(data.message)

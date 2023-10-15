@@ -6,6 +6,7 @@ const morgan=require('morgan')
 //morgan prints the list of API requests along with status codes
 // called on the terminal of the backend server 
 //which helps in debugging errors 
+const cors=require('cors')
 
 const mongoose = require('mongoose');
 //mongoose is used for object data modelling. Structure to document databases
@@ -29,6 +30,10 @@ app.use(express.json())
 //express.json is used to parse the request bodies of POST request
 
 app.use(morgan('dev'))
+app.use(cors({
+    credentials:true,
+    origin:process.env.FRONTEND_URL
+}))
 
 //routes
 app.use('/api/user',userRoutes)
