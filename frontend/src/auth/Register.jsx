@@ -40,7 +40,9 @@ const Register = ({setOpen}) => {
   }
   return (
     <>
+    
     <form onSubmit={(e)=>submitHandler(e)}>
+       <h3>Register</h3>
       <div className="form-control">
         <label htmlFor="username">Username</label>
         <input type="text" name="username" id="username"
