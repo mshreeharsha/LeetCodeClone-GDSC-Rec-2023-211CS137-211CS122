@@ -5,6 +5,10 @@ const ProblemSchema=Schema({
         type:String,
         required:true
     },
+    slug:{
+        type:String,
+        required:true
+    },
     difficulty:{
         type:String,
         default: "Medium",
