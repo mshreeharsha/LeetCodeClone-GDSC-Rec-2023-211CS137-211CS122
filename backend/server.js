@@ -12,6 +12,7 @@ const mongoose = require('mongoose');
 //mongoose is used for object data modelling. Structure to document databases
 
 const userRoutes=require('./routes/UserRoute')
+const categoryRoutes=require('./routes/CategoryRoute')
 
 const app=express()
 
@@ -37,7 +38,7 @@ app.use(cors({
 
 //routes
 app.use('/api/user',userRoutes)
-
+app.use('/api/category',categoryRoutes)
 
 
 const PORT=process.env.PORT||5000;
