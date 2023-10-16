@@ -1,0 +1,7 @@
+.problem-link{
+    text-decoration: none !important;
+    color:black;
+}
+.problem-link:hover{
+    color: blueviolet;
+}
