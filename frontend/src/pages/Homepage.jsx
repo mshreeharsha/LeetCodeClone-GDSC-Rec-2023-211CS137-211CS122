@@ -5,7 +5,7 @@ import ListOfProblems from '../components/ListOfProblems';
 const Homepage = () => {
   return (
     <div>
-      <Layout>
+      <Layout type="mainHeading">
         <ListOfProblems/>
       </Layout>
     </div>

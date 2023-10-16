@@ -1,0 +1,17 @@
+.even-row{
+    background: linear-gradient(to right, #000, #222);
+        /* Gradient background from pure black to a slightly lighter black */
+        color: #fff;
+        /* White text on gradient background */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        /* Subtle box shadow */
+}
+
+.odd-row {
+    background: linear-gradient(to right, #333, #555);
+        /* Gradient background from a slightly darker black to a slightly lighter black */
+        color: #fff;
+        /* White text on gradient background */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        /* Subtle box shadow */
+}

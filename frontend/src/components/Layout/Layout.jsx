@@ -1,10 +1,10 @@
 import React from 'react';
 import Header from "./Header.jsx";
-
-const Layout = ({children}) => {
+import ProblemHeader from './ProblemHeader.jsx';
+const Layout = ({children,type}) => {
   return (
     <div>
-      <Header />
+      {type=='mainHeading'?<Header />:type=='ProblemHeader'?<ProblemHeader/>:''}
       <main style ={{minHeight:"70vH"}}>
         {children}
       </main>

@@ -26,6 +26,7 @@ const Login = ({setOpen}) => {
           user: response.data.user,
           token: response.data.token
         })
+        
 
         //Saving the Token and user into Local Storage
 
@@ -37,7 +38,7 @@ const Login = ({setOpen}) => {
         setOpen(false)
       }
       else{
-        console.log(response.data.message)
+          alert(response.data.message)
       }
     }
     catch(error){
