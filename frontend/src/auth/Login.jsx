@@ -9,6 +9,7 @@ const Login = ({setOpen}) => {
   const [auth,setAuth] = useAuthContext()
   const [email,setEmail]=useState("")
   const [password,setPassword]=useState("")
+  const [error,setError]=useState("")
 
   //Form Submit Handling
   const handleSubmit = async(e)=>{
@@ -32,13 +33,13 @@ const Login = ({setOpen}) => {
 
         localStorage.setItem("auth",JSON.stringify(response.data))
 
-        //Navigating back to the place from where the login was called
-        navigate(location.state || "/");
-
+        setEmail('')
+        setPassword('')
+        setError("")
         setOpen(false)
       }
       else{
-          alert(response.data.message)
+          setError(response.data.message)
       }
     }
     catch(error){
@@ -63,6 +64,7 @@ const Login = ({setOpen}) => {
             onChange={(e)=>{setPassword(e.target.value)}} required className="form-control"
             style={{ backgroundColor: '#f7f7f7' }}/>
           </div>
+          {error.length>0 && <div className='error'>{error}</div>}
           <div>
             <button type='submit' className="btn btn-outline-warning">LOGIN</button>
           </div>

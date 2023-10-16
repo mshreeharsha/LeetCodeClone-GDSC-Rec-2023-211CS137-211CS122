@@ -81,4 +81,21 @@ const getAllProblemsController = async(req,res)=>{
     }
 }
 
-module.exports={createProblemController,getAllProblemsController}
+const getSingleProblemController = async(req,res)=>{
+  try{
+    const problem = ProblemModel.findOne({slug:req.params.slug}).populate('category')
+    res.send(201).send({
+      success:true,
+      message: 'Single Problem Fetched',
+      problem
+    })
+  }
+  catch(error){
+    res.status(400).send({
+      success:false,
+      message:'Error in Fetching Single Problem',
+      error:error.message
+    })
+  }
+}
+module.exports={createProblemController,getAllProblemsController,getSingleProblemController}

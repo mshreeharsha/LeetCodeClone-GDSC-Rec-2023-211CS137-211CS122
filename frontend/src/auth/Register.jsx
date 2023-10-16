@@ -10,6 +10,7 @@ const Register = ({setOpen}) => {
     email:'',
     password:''
   })
+  const [error,setError]=useState("")
 
   const inputHandler=(e)=>{
       const newUser={...user,[e.target.name]:e.target.value}
@@ -30,7 +31,7 @@ const Register = ({setOpen}) => {
         setOpen(false)
       }
       else{
-        alert(data.message)
+        setError(data.message)
       }
     }
     catch(error)
@@ -63,7 +64,7 @@ const Register = ({setOpen}) => {
          value={user.password} placeholder="Enter password"
          onChange={(e)=>inputHandler(e)} className="form-control" style={{ backgroundColor: '#f7f7f7' }} />
       </div>
-
+      {error.length>0 && <div className='error'>{error}</div>}
        <button type="submit" className="btn btn-outline-warning">Submit</button>
 
     </form>
