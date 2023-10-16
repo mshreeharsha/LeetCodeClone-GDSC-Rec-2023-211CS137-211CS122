@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { baseUrl } from '../baseUrl';
+import './styles/ListOfProblems.css'
 import { Link, useNavigate } from 'react-router-dom';
 
 const ListOfProblems = () => {
@@ -52,9 +53,9 @@ const ListOfProblems = () => {
                     {problems.map((problem, index) => (
                         <tr key={problem._id} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
                             <td></td>
-                            <td><Link to={`/problems/${problem.slug}`} className='problem-link'>{problem.title}</Link></td>
-                            <td>{problem.category.name}</td>
-                            <td className={getDifficultyClass(problem.difficulty)}>{problem.difficulty}</td>
+                            <td ><Link to={`/problems/${problem.slug}`} style={{'color':'white'}} className='problem-link'>{problem.title}</Link></td>
+                            <td style={{'color':'white'}}>{problem.category.name}</td>
+                            <td className={getDifficultyClass(problem.difficulty)} style={{'color':'white'}}>{problem.difficulty}</td>
                         </tr>
                     ))}
                 </tbody>

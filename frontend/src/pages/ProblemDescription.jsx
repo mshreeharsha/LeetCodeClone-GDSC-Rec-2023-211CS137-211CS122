@@ -1,10 +1,11 @@
+import Layout from '../components/Layout/Layout';
 import React from 'react'
 
 const ProblemDescription = () => {
   return (
-    <div>
-      
-    </div>
+    <Layout type="ProblemHeader">
+       Hello
+    </Layout>
   )
 }
 
