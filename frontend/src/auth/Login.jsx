@@ -9,6 +9,7 @@ const Login = ({setOpen}) => {
   const [auth,setAuth] = useAuthContext()
   const [email,setEmail]=useState("")
   const [password,setPassword]=useState("")
+  const [error,setError]=useState("")
 
   //Form Submit Handling
   const handleSubmit = async(e)=>{
@@ -32,13 +33,13 @@ const Login = ({setOpen}) => {
 
         localStorage.setItem("auth",JSON.stringify(response.data))
 
-        //Navigating back to the place from where the login was called
-        navigate(location.state || "/");
-
+        setEmail('')
+        setPassword('')
+        setError("")
         setOpen(false)
       }
       else{
-          alert(response.data.message)
+          setError(response.data.message)
       }
     }
     catch(error){
@@ -50,20 +51,22 @@ const Login = ({setOpen}) => {
     <div>
       <div>
         <form onSubmit={handleSubmit}>
-          <h4>Login</h4>
-          <div>
-            <label htmlFor='email'>Email ID : </label>
+          <div className='container text-center' backgroundColor='#FFF0F5'><h4>Login</h4></div>
+          <div className="form-control row mb-3">
+            <label htmlFor='email' className="col-sm-3 col-form-label" style={{ fontWeight: 'bold' }}>Email ID : </label>
             <input type="email" name="email" id
             value={email} onChange={(e)=>{setEmail(e.target.value)}} required
-            placeholder='example@gmail.com' />
+            placeholder='example@gmail.com' className="form-control" style={{ backgroundColor: '#f7f7f7' }} />
           </div>
-          <div>
-            <label htmlFor='password'>Password : </label>
+          <div className=" form-control row mb-3">
+            <label htmlFor='password' className="col-sm-3 col-form-label" style={{ fontWeight: 'bold' }}>Password : </label>
             <input type='password' id="password" name="password" value={password}
-            onChange={(e)=>{setPassword(e.target.value)}} required />
+            onChange={(e)=>{setPassword(e.target.value)}} required className="form-control"
+            style={{ backgroundColor: '#f7f7f7' }}/>
           </div>
+          {error.length>0 && <div className='error'>{error}</div>}
           <div>
-            <button type='submit'>LOGIN</button>
+            <button type='submit' className="btn btn-outline-warning">LOGIN</button>
           </div>
         </form>
       </div>

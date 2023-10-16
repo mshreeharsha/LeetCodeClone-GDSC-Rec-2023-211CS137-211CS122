@@ -10,6 +10,7 @@ const Register = ({setOpen}) => {
     email:'',
     password:''
   })
+  const [error,setError]=useState("")
 
   const inputHandler=(e)=>{
       const newUser={...user,[e.target.name]:e.target.value}
@@ -30,7 +31,7 @@ const Register = ({setOpen}) => {
         setOpen(false)
       }
       else{
-        alert(data.message)
+        setError(data.message)
       }
     }
     catch(error)
@@ -42,29 +43,29 @@ const Register = ({setOpen}) => {
     <>
     
     <form onSubmit={(e)=>submitHandler(e)}>
-       <h3>Register</h3>
-      <div className="form-control">
-        <label htmlFor="username">Username</label>
+    <div className='container text-center' backgroundColor='#FFF0F5'><h4>Register</h4></div>
+      <div className="form-control row mb-3">
+        <label htmlFor="username" className="col-sm-3 col-form-label" style={{ fontWeight: 'bold' }}>Username</label>
         <input type="text" name="username" id="username"
          value={user.username} placeholder="Enter username"
-         onChange={(e)=>inputHandler(e)} />
+         onChange={(e)=>inputHandler(e)} className="form-control" style={{ backgroundColor: '#f7f7f7' }}  />
       </div>
 
-      <div className="form-control">
-         <label htmlFor="email">Email</label>
+      <div className="form-control row mb-3">
+         <label htmlFor="email" className="col-sm-3 col-form-label" style={{ fontWeight: 'bold' }}>Email</label>
          <input type="email" name="email" id="email" 
          value={user.email} placeholder="Enter email"
-         onChange={(e)=>inputHandler(e)}/>
+         onChange={(e)=>inputHandler(e)} className="form-control" style={{ backgroundColor: '#f7f7f7' }} />
       </div>
 
-      <div className="form-control">
-        <label htmlFor="password">Password</label>
+      <div className="form-control row mb-3">
+        <label htmlFor="password" className="col-sm-3 col-form-label" style={{ fontWeight: 'bold' }}>Password</label>
         <input type="password" name="password" id="password"
          value={user.password} placeholder="Enter password"
-         onChange={(e)=>inputHandler(e)}/>
+         onChange={(e)=>inputHandler(e)} className="form-control" style={{ backgroundColor: '#f7f7f7' }} />
       </div>
-
-       <button type="submit">Submit</button>
+      {error.length>0 && <div className='error'>{error}</div>}
+       <button type="submit" className="btn btn-outline-warning">Submit</button>
 
     </form>
     </>
