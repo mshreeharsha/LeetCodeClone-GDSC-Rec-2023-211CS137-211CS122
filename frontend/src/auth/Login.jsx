@@ -50,20 +50,21 @@ const Login = ({setOpen}) => {
     <div>
       <div>
         <form onSubmit={handleSubmit}>
-          <h4>Login</h4>
-          <div>
-            <label htmlFor='email'>Email ID : </label>
+          <div className='container text-center' backgroundColor='#FFF0F5'><h4>Login</h4></div>
+          <div className="form-control row mb-3">
+            <label htmlFor='email' className="col-sm-3 col-form-label" style={{ fontWeight: 'bold' }}>Email ID : </label>
             <input type="email" name="email" id
             value={email} onChange={(e)=>{setEmail(e.target.value)}} required
-            placeholder='example@gmail.com' />
+            placeholder='example@gmail.com' className="form-control" style={{ backgroundColor: '#f7f7f7' }} />
           </div>
-          <div>
-            <label htmlFor='password'>Password : </label>
+          <div className=" form-control row mb-3">
+            <label htmlFor='password' className="col-sm-3 col-form-label" style={{ fontWeight: 'bold' }}>Password : </label>
             <input type='password' id="password" name="password" value={password}
-            onChange={(e)=>{setPassword(e.target.value)}} required />
+            onChange={(e)=>{setPassword(e.target.value)}} required className="form-control"
+            style={{ backgroundColor: '#f7f7f7' }}/>
           </div>
           <div>
-            <button type='submit'>LOGIN</button>
+            <button type='submit' className="btn btn-outline-warning">LOGIN</button>
           </div>
         </form>
       </div>
