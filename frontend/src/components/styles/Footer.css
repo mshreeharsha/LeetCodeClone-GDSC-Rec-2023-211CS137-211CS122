@@ -1,0 +1,8 @@
+.problem-footer{
+    position: 'fixed';
+    width:'100%';
+    bottom:'0';
+    height:4rem;
+    border-top:10px solid #eee;
+    border-bottom:10px solid #eee;
+}
