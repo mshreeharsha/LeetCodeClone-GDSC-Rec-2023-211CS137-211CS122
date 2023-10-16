@@ -59,4 +59,26 @@ const createProblemController=async(req,res)=>{
   }
 };
 
-module.exports={createProblemController}
+const getAllProblemsController = async(req,res)=>{
+    try {
+        //For displaying fetching only required items, sampleTestCases and Description are not necessary
+        const problems= await ProblemModel.find({}).populate('category').select("-sampleTestCases -constraints -description").sort({createdAt:-1});
+
+        console.log(problems);
+        res.status(200).send({
+            success:true,
+            count:problems.length,
+            message:'Fetched All Problems',
+            problems
+        });
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).send({
+            success:false,
+            message:'Error in Getting the Problems',
+            error:error.message
+        })
+    }
+}
+
+module.exports={createProblemController,getAllProblemsController}

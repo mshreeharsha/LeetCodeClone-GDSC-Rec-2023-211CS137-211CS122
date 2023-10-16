@@ -28,6 +28,9 @@ const ProblemSchema=Schema({
             type: String,
             required: true,
           },
+          explaination:{
+            type: String
+          }
         },
     ],
     constraints:[{
