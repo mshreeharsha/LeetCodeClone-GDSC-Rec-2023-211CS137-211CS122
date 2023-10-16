@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { baseUrl } from '../baseUrl';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ListOfProblems = () => {
+    const navigate=useNavigate()
     const [problems, setProblems] = useState([]);
 
     const getAllProblems = async () => {
@@ -40,17 +42,17 @@ const ListOfProblems = () => {
             <table className="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Status</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Difficulty</th>
+                        <th className='col-1'>Status</th>
+                        <th className='col-3'>Title</th>
+                        <th className='col-3'>Category</th>
+                        <th className='col-2'>Difficulty</th>
                     </tr>
                 </thead>
                 <tbody>
                     {problems.map((problem, index) => (
                         <tr key={problem._id} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
                             <td></td>
-                            <td>{problem.title}</td>
+                            <td><Link to={`/problems/${problem.slug}`} className='problem-link'>{problem.title}</Link></td>
                             <td>{problem.category.name}</td>
                             <td className={getDifficultyClass(problem.difficulty)}>{problem.difficulty}</td>
                         </tr>

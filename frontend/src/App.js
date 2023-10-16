@@ -1,8 +1,7 @@
 import {Route,Routes} from 'react-router-dom'
 import HomePage from './pages/Homepage';
 import Private from './auth/Private';
-import Login from './auth/Login';
-import Register from './auth/Register'
+import ProblemDescription from './pages/ProblemDescription';
 function App() {
   return (
     
@@ -11,6 +10,7 @@ function App() {
       <Route path='/user' element={<Private/>}>
            
       </Route>
+      <Route path='/problems/:slug' element={<ProblemDescription/>}/>
     </Routes>
     
   );
