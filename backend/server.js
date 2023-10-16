@@ -13,6 +13,7 @@ const mongoose = require('mongoose');
 
 const userRoutes=require('./routes/UserRoute')
 const categoryRoutes=require('./routes/CategoryRoute')
+const problemRoutes=require('./routes/ProblemRoute')
 
 const app=express()
 
@@ -39,6 +40,7 @@ app.use(cors({
 //routes
 app.use('/api/user',userRoutes)
 app.use('/api/category',categoryRoutes)
+app.use('/api/problems',problemRoutes)
 
 
 const PORT=process.env.PORT||5000;

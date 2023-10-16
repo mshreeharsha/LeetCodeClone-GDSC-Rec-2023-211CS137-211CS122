@@ -11,9 +11,6 @@ function App() {
       <Route path='/user' element={<Private/>}>
            
       </Route>
-
-      <Route path='/login' element = {<Login/>}/>
-      <Route path='/register' element={<Register/>}/>
     </Routes>
     
   );
