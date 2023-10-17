@@ -51,11 +51,11 @@ const ProblemHeader = () => {
                         </li> */}
                         <li className='nav-item mr-5'><Timer/></li>
                         {!auth.user?(<><li className="nav-item">
-                            <button onClick={()=>{setType('register');setOpen(true)}}>SignUp</button>
+                            <button onClick={()=>{setType('register');setOpen(true)}} class="btn btn-warning" style={{"color":"white"}}>SignUp</button>
                         {/* <NavLink to='/register' className="nav-link" href="#">SignUp</NavLink> */}
                         </li>
                         <li className="nav-item">
-                            <button onClick={()=>{setType('login');setOpen(true)}}>Login</button>
+                            <button onClick={()=>{setType('login');setOpen(true)}} class="btn btn-warning" style={{"color":"white"}}>Login</button>
                         {/* <NavLink to='/login' className="nav-link" href="#">Login</NavLink> */}
                         </li></>):(<>
                         <li className="nav-item">
@@ -64,7 +64,7 @@ const ProblemHeader = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <button onClick={handleLogout}>Logout</button>
+                            <button onClick={handleLogout} class="btn btn-warning" style={{"color":"white"}}>Logout</button>
                             {/* <NavLink className="nav-link" onClick={handleLogout} to='/login' href="#">Logout</NavLink> */}
                         </li>
                         </>)}
