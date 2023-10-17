@@ -17,8 +17,8 @@ const ProblemDescription = () => {
           <div style={{'min-height':'20rem'}}>
             Hello
           </div>
-          <div style={{'overflow':'auto'}}>
-            <div >
+          <div style={{'overflow-y':'auto'}}>
+            <div>
               Hello This is where i am testing this unit. Common this is good</div>
             <Footer/>
           </div>
