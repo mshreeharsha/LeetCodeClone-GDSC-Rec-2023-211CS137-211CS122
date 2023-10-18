@@ -3,9 +3,11 @@ const slugify=require('slugify')
 
 const createProblemController=async(req,res)=>{
   try {
-    const {title, difficulty, description, sampleTestCases , constraints , category} = req.body;
+    const {title,problemNo, difficulty, description, sampleTestCases , constraints , category} = req.body;
     if(!title)
       return res.send({success:false,message:'Title is not entered'}) //checking if Title is entered
+    if(!problemNo)
+      return res.send({success:false,message:'Problem No is not entered'}) //checking if Problem No is entered
     if(!difficulty)
       return res.send({success:false,message:'Difficulty is not entered'}) //checking if Difficulty is entered
     if(!description)
@@ -30,6 +32,7 @@ const createProblemController=async(req,res)=>{
     const newProblem = await new ProblemModel({
         title:title,
         slug:slugify(title),
+        problemNo:problemNo,
         difficulty:difficulty, 
         description:description, 
         sampleTestCases:sampleTestCases , 
@@ -43,6 +46,7 @@ const createProblemController=async(req,res)=>{
       problem:{
         title:newProblem.title,
         slug:newProblem.slug,
+        problemNo:problemNo,
         difficulty:newProblem.difficulty, 
         description:newProblem.description, 
         sampleTestCases:newProblem.sampleTestCases , 
@@ -98,4 +102,43 @@ const getSingleProblemController = async(req,res)=>{
     })
   }
 }
-module.exports={createProblemController,getAllProblemsController,getSingleProblemController}
+
+const getNextProblemController = async(req,res)=>{
+  //Fetching Next or Prev Problem Based on the parameter passed
+  try{
+    const problem  = await ProblemModel.findOne({problemNo:Number(req.params.problemNo)})
+    res.status(201).send({
+      success:true,
+      message:'Problem Fetched Successfully',
+      slug:problem?.slug,
+    })
+  }
+  catch(error){
+    res.status(400).send({
+      success:false,
+      message:'Error in Fetching Problem',
+      error:error.message
+    })
+  }
+}
+
+const getTotalNoOfProblems = async(req,res)=>{
+  try {
+    //Getting the total count of no of problems 
+    const total = await ProblemModel.countDocuments({});
+    console.log(total);
+    res.status(200).send({
+        success:true,
+        total
+    });
+} catch (error) {
+    console.log(error)
+    res.status(400).send({
+        success:false,
+        message:'Error in Counting Total no of Problems',
+        error
+    });
+}
+}
+
+module.exports={createProblemController,getAllProblemsController,getSingleProblemController,getNextProblemController,getTotalNoOfProblems}

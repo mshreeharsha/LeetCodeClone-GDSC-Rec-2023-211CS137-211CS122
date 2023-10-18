@@ -1,9 +1,9 @@
 import React from 'react';
 
-const ProblemDesc = () => {
+const ProblemDesc = ({problem}) => {
   return (
     <div>
-       Description
+       {problem.description}
     </div>
   );
 }
