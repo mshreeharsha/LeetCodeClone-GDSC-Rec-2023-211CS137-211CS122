@@ -8,11 +8,19 @@ import TestCases from '../components/ProblemSections/TestCases'
 import ProblemDescHeader from '../components/Layout/ProblemDescHeader';
 import Submissions from '../components/ProblemSections/Submissions';
 import './styles/split.css'
+import axios from 'axios';
+import { baseUrl } from '../baseUrl';
+import { useParams } from 'react-router-dom';
 const ProblemDescription = () => {
+
+  //to obtain Slug from the URL
+  const params=useParams()
+
    const [active,setActive]=useState({
         description:true,
         submissions:false
     })
+    const [problem,setProblem] = useState({})
 
     const [split,setSplit]=useState(true) // if splitter is false then the test cases section is collapsed
 
@@ -23,14 +31,30 @@ const ProblemDescription = () => {
         setSplit(true)
     }
 
+    //Fetch the Problem Details
+    const fetchProblem=async()=>{
+      try{
+        const response = await axios.get(`${baseUrl}/api/problems/single-problem/${params.slug}`)
+        setProblem(response.data.problem)
+      }
+      catch(error){
+        console.log(error)
+      }
+    }
+
+    //Fetching the Problem as soon as Page Loads
+    useEffect(()=>{
+      fetchProblem()
+    },[params.slug])
+
   return (
-  <Layout type="ProblemHeader">
+  <Layout type="ProblemHeader" questionNo={problem.problemNo}>
     
     <Split className='split' direction='horizontal' sizes={[40, 60]} 
     gutterSize={15} minSize={300} >
        <div style={{'margin-top':'0.5rem'}}>
        <ProblemDescHeader active={active} setActive={setActive}/>
-       {active.description?<ProblemDesc/>:<Submissions/>} 
+       {active.description?<ProblemDesc problem={problem}/>:<Submissions problem={problem}/>} 
        
        </div>
        {split?(
@@ -56,11 +80,7 @@ const ProblemDescription = () => {
           <div>
         <Footer handleSplitter={handleSplitter} split={split}/>
         </div>
-        </Split>}
-        
-       
-       
-        
+        </Split>}        
     </Split>
   </Layout>
   )

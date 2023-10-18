@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios' 
 import { baseUrl } from '../../baseUrl';
-
 const ProblemDesc = () => {
     const [problem,setProblem]=useState({})
 
@@ -17,9 +16,11 @@ const ProblemDesc = () => {
    useEffect(()=>{
      fetchProblem()
    },[])
+
+const ProblemDesc = ({problem}) => {
   return (
     <div>
-       Description
+       {problem.description}
     </div>
   );
 }

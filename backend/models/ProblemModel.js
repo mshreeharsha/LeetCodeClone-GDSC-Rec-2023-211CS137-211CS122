@@ -9,6 +9,10 @@ const ProblemSchema=Schema({
         type:String,
         required:true
     },
+    problemNo:{
+      type:Number,
+      required:true
+    },
     difficulty:{
         type:String,
         default: "Medium",
