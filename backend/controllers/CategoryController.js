@@ -36,4 +36,23 @@ const createCategoryController = async(req,res)=>{
     }
 }
 
-module.exports = {createCategoryController}
+const getAllCategoryController=async(req,res)=>{
+    try{
+       const categories=await categoryModel.find({})
+       res.send({
+        success:true,
+        message:'All categories successfully fetched',
+        categories
+       })
+    }catch(error){
+       res.send({
+        success:false,
+        error,
+        message:'Error in get all categories'
+       })
+    }
+   
+
+}
+
+module.exports = {createCategoryController,getAllCategoryController}

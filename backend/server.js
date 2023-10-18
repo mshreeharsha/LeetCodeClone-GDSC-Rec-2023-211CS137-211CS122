@@ -39,7 +39,7 @@ app.use(cors({
 
 //routes
 app.use('/api/user',userRoutes)
-app.use('/api/category',categoryRoutes)
+app.use('/api/categories',categoryRoutes)
 app.use('/api/problems',problemRoutes)
 
 

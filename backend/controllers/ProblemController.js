@@ -83,8 +83,8 @@ const getAllProblemsController = async(req,res)=>{
 
 const getSingleProblemController = async(req,res)=>{
   try{
-    const problem = ProblemModel.findOne({slug:req.params.slug}).populate('category')
-    res.send(201).send({
+    const problem = await ProblemModel.findOne({slug:req.params.slug}).populate('category')
+    res.status(201).send({
       success:true,
       message: 'Single Problem Fetched',
       problem
