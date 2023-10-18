@@ -1,10 +1,10 @@
-
 const jwt=require('jsonwebtoken')
 const userModel = require('../models/UserModel')
 
 const requireSignIn = async(req,res,next)=>{
     try {
-        const decode=jwt.verify(req.headers.authorization,process.env.JWT_TOKEN)
+        const token = req.headers.authorization.split(' ')[1];
+        const decode=jwt.verify(token,process.env.JWT_TOKEN)
         req.user=decode
         console.log(decode)
         next()
