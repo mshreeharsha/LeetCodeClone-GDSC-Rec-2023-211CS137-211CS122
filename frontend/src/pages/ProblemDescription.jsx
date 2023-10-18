@@ -3,6 +3,7 @@ import React,{useEffect,useState} from 'react'
 import Split from 'react-split'
 import Footer from '../components/ProblemSections/Footer'
 import ProblemDesc from '../components/ProblemSections/ProblemDesc';
+import LanguageHeader from '../components/Layout/LanguageHeader';
 import Code from '../components/ProblemSections/Code';
 import TestCases from '../components/ProblemSections/TestCases'
 import ProblemDescHeader from '../components/Layout/ProblemDescHeader';
@@ -62,11 +63,13 @@ const ProblemDescription = () => {
        gutterSize={15} sizes={[60, 40]} minSize={60}
        style={{ maxHeight: '90vh','width':'100%' }}>
           <div style={{'min-height':'20rem'}}>
-            Hello
+             <LanguageHeader/>
+             <Code/>
           </div>
           <div style={{'overflow-y':'auto'}}>
             <div>
-              Hello This is where i am testing this unit. Common this is good</div>
+              <TestCases/>
+            </div>
             <Footer handleSplitter={handleSplitter} split={split}/>
           </div>
        </Split>
