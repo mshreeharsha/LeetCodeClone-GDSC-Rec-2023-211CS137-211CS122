@@ -51,7 +51,7 @@ const ListOfProblems = () => {
                     {problems.map((problem, index) => (
                         <tr key={problem._id} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
                             <td></td>
-                            <td ><Link to={`/problems/${problem.slug}`} className='problem-link'>{problem.title}</Link></td>
+                            <td ><Link to={`/problems/${problem.slug}`} className='problem-link'>{problem.problemNo}. {problem.title}</Link></td>
                             <td>{problem.category.name}</td>
                             <td className={getDifficultyClass(problem.difficulty)}>{problem.difficulty}</td>
                         </tr>
