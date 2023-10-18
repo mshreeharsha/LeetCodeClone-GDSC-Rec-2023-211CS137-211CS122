@@ -17,7 +17,6 @@ const ProblemDesc = () => {
      fetchProblem()
    },[])
 
-const ProblemDesc = ({problem}) => {
   return (
     <div>
        {problem.description}
@@ -25,4 +24,4 @@ const ProblemDesc = ({problem}) => {
   );
 }
 
-export default ProblemDesc;
+export default ProblemDesc
