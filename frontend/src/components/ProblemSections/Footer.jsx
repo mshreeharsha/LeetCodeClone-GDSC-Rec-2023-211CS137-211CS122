@@ -2,15 +2,14 @@ import React from 'react';
 import '../styles/Footer.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp,faChevronDown } from '@fortawesome/free-solid-svg-icons';
-const Footer = ({handleSplitter,split}) => {
+const Footer = () => {
 
   return (
     <div className="problem-footer"
      style={{'position':'absolute','bottom':'0',cursor:'pointer'}}
-     onClick={handleSplitter}>
-       Console {split?<FontAwesomeIcon icon={faChevronDown}
-        />:<FontAwesomeIcon icon={faChevronUp}/>}
-    </div>  // on clicking on the console the testcases section can be toggled
+    >
+      
+    </div>  
   );
 }
 
