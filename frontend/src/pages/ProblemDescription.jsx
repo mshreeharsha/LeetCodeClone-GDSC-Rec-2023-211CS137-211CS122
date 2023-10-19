@@ -62,7 +62,7 @@ const ProblemDescription = () => {
        gutterSize={15} sizes={[60, 40]} minSize={60}
        style={{ maxHeight: '90vh','width':'100%' }}>
           <div style={{'min-height':'20rem'}}>
-            Hello
+            {problem.title}
           </div>
           <div style={{'overflow-y':'auto'}}>
             <div>
