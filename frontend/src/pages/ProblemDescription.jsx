@@ -9,7 +9,7 @@ import TestCases from '../components/ProblemSections/TestCases'
 import ProblemDescHeader from '../components/Layout/ProblemDescHeader';
 import Submissions from '../components/ProblemSections/Submissions';
 import TestCaseHeader from '../components/Layout/TestCaseHeader';
-import CustomTestCases from '../components/ProblemSections/Result';
+import Result from '../components/ProblemSections/Result';
 import './styles/split.css'
 import axios from 'axios';
 import { baseUrl } from '../baseUrl';
@@ -97,7 +97,8 @@ const ProblemDescription = () => {
             {split && (<div>
               <TestCaseHeader active={testActive} setActive={setTestActive} raw={raw} setRaw={setRaw}/>
               {
-                testActive.testcase?<TestCases raw={raw} testcases={problem.sampleTestCases}/>:<CustomTestCases/>
+                testActive.testcase?<TestCases raw={raw} testcases={problem.sampleTestCases}/>:
+                <Result testcases={problem.sampleTestCases}/>
               }
               
             </div>)
