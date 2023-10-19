@@ -186,20 +186,23 @@ const FilterHeader = ()=>{
                         Tags <DownOutlined />
                     </Button>
                 </Dropdown>
-                <div className="input-group">
-                    <span className="input-group-text" style={{"backgroundColor":"black","color":"white"}}>
-                        <SearchOutlined />
-                    </span>
-                    <input
-                        style={{"backgroundColor":"black","color":"white"}}
-                        className="form-control search-input"
-                        type="search"
-                        placeholder="Search"
-                        aria-label="Search"
-                        value={values}
-                        onChange={(e) => setValues(e.target.value)}
-                        autoFocus={false}
-                    />
+                
+                <div style={{"width": "100%"}}>
+                    <form className="input-group" onSubmit={handleSearchSubmit} style={{"height": "100%"}}>
+                        <span className="input-group-text" style={{"backgroundColor":"black","color":"white"}}>
+                            <SearchOutlined />
+                        </span>
+                        <input
+                            style={{"backgroundColor":"black","color":"white"}}
+                            className="form-control search-input"
+                            type="search"
+                            placeholder="Search"
+                            aria-label="Search"
+                            value={values}
+                            onChange={(e) => setValues(e.target.value)}
+                            autoFocus={false}
+                        />
+                    </form>
                 </div>
                 <Dropdown overlay={menu3} trigger={['click']}>
                     <Button style={buttonStyle}>
