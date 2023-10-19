@@ -7,7 +7,7 @@ const Footer = ({handleSplitter,split,runCodeHandler}) => {
 
   return (
     <div className="problem-footer"
-     style={{'position':'absolute','bottom':'0','width':'62rem',
+     style={{'position':'absolute','bottom':'0','width':'57rem',
      display:'flex','align-items':'center','justify-content':'space-between'}}>
       <div style={{cursor:'pointer'}}
     onClick={handleSplitter}>Console {split?<FontAwesomeIcon icon={faChevronDown}
