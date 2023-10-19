@@ -25,6 +25,27 @@ const ProblemDescription = () => {
         submissions:false,
     })
 
+    
+
+    const runCodeHandler=async()=>{
+        const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
+        console.log(data.run.output)
+    }
+
+    const [code,setCode]=useState('')
+
+  const pistonFormat={
+      "language": "cpp",
+       "files": [
+     {
+      "name": "main.cpp",
+      "content": `${code}`
+    }
+  ],
+  "stdin": "5\n1 2 3 4 5\n9",
+  "version": "10.2.0"
+    }
+
     const [raw,setRaw]=useState(false) //toggle for custom test cases
 
     const [testActive,setTestActive]=useState({  //toggling for result and testcases section
@@ -70,18 +91,18 @@ const ProblemDescription = () => {
        <div>
           <div style={{'min-height':'20rem'}}>
             <LanguageHeader/>
-            <Code/>
+            <Code split={split} code={code} setCode={setCode}/>
           </div>
           <div style={{'overflow-y':'auto'}}>
             {split && (<div>
               <TestCaseHeader active={testActive} setActive={setTestActive} raw={raw} setRaw={setRaw}/>
               {
-                testActive.testcase?<TestCases raw={raw}/>:<CustomTestCases/>
+                testActive.testcase?<TestCases raw={raw} testcases={problem.sampleTestCases}/>:<CustomTestCases/>
               }
               
             </div>)
              }
-            <Footer handleSplitter={handleSplitter} split={split}/>
+            <Footer handleSplitter={handleSplitter} split={split} runCodeHandler={runCodeHandler}/>
           </div>
        </div>
     </Split>
