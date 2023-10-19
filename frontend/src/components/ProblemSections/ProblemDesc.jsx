@@ -55,6 +55,7 @@ const ProblemDesc = () => {
           <span><strong>Example {index+1}:</strong></span>
           <div style={{'border-left':'2px solid #999','padding':'1rem',
           'margin-top':'0.5rem','margin-bottom':'1rem'}}>
+
             <p><strong>Input: </strong>{testcase.input.map((tc,i)=>{
               return <span key={i}>
                 {tc.variableName} = {tc.variableValue} {(i!==testcase.input.length-1)?' , ':''}

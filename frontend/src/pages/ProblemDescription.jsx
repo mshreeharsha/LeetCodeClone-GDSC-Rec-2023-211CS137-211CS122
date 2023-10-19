@@ -76,7 +76,7 @@ const ProblemDescription = () => {
             {split && (<div>
               <TestCaseHeader active={testActive} setActive={setTestActive} raw={raw} setRaw={setRaw}/>
               {
-                testActive.testcase?<TestCases raw={raw}/>:<CustomTestCases/>
+                // testActive.testcase?<TestCases raw={raw} testcases={problem.sampleTestCases}/>:<CustomTestCases/>
               }
               
             </div>)
