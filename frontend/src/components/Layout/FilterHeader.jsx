@@ -4,7 +4,7 @@ import axios from 'axios';
 import { baseUrl } from '../../baseUrl';
 import ListOfProblems from '../ListOfProblems';
 import { DownOutlined } from '@ant-design/icons'; // Import the down arrow icon
-
+import { SearchOutlined } from '@ant-design/icons';
 
 const FilterHeader = ()=>{
 
@@ -37,6 +37,8 @@ const FilterHeader = ()=>{
     const [problems, setProblems] = useState([]);
     const [tags, setTags] = useState([]);
     const [category, SetCategory] = useState([]);
+
+    const [values,setValues]=useState('')
 
     const getAllProblems = async () => {
         try {
@@ -132,6 +134,34 @@ const FilterHeader = ()=>{
             </div>
       </Menu>
     )
+
+    //Options for Status
+    const optionsStatus = [
+        { value: 'Solved', label: 'Solved' },
+        { value: 'Attempted', label: 'Attempted' },
+    ];
+
+    const menu3=(
+        <Menu>
+            {optionsStatus.map((option) => (
+            <Menu.Item key={option.value}>
+                {option.label}
+            </Menu.Item>
+            ))}
+        </Menu>
+    )
+
+    //Type Search
+    const handleSearchSubmit = async(e)=>{
+        try{
+            e.preventDefault();
+
+            setValues('');
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
     
     const handleAllTopics=()=>{
         setDifficulty()
@@ -142,7 +172,7 @@ const FilterHeader = ()=>{
 
     return (
         <>
-            <div className="d-flex justify-content-center" style={{'backgroundColor':'#F6FDC3','margin-bottom':'60px','height':'40px'}}>
+            <div className="d-flex justify-content-center" style={{'margin-bottom':'60px','height':'40px'}}>
                 <Button style={buttonStyle} onClick={()=>{handleAllTopics()}}>
                         All Topics
                 </Button>
@@ -154,6 +184,26 @@ const FilterHeader = ()=>{
                 <Dropdown overlay={menu2} trigger={['click']}>
                     <Button style={buttonStyle}>
                         Tags <DownOutlined />
+                    </Button>
+                </Dropdown>
+                <div className="input-group">
+                    <span className="input-group-text" style={{"backgroundColor":"black","color":"white"}}>
+                        <SearchOutlined />
+                    </span>
+                    <input
+                        style={{"backgroundColor":"black","color":"white"}}
+                        className="form-control search-input"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                        value={values}
+                        onChange={(e) => setValues(e.target.value)}
+                        autoFocus={false}
+                    />
+                </div>
+                <Dropdown overlay={menu3} trigger={['click']}>
+                    <Button style={buttonStyle}>
+                        Status <DownOutlined />
                     </Button>
                 </Dropdown>
             </div>
