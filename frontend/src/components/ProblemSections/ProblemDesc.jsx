@@ -55,7 +55,12 @@ const ProblemDesc = () => {
           <span><strong>Example {index+1}:</strong></span>
           <div style={{'border-left':'2px solid #999','padding':'1rem',
           'margin-top':'0.5rem','margin-bottom':'1rem'}}>
-            <p><strong>Input: </strong>{testcase.input}</p>
+            {console.log(testcase)}
+            <p><strong>Input: </strong>
+            {testcase.input?.map((input)=>(
+              <span>{input.variableName}:{input.variableValue}</span>
+            ))}
+            </p>
             <p><strong>Output: </strong>{testcase.output}</p>
             {testcase.explaination &&
              <p><strong>Explaination: </strong>{testcase.explaination}</p>}
