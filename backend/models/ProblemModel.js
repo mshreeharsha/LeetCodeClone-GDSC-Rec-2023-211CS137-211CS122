@@ -24,10 +24,16 @@ const ProblemSchema=Schema({
     },
     sampleTestCases: [
         {
-          input: {
-            type: String,
-            required: true,
-          },
+          input: [{
+            variableName : {
+              type: String,
+              required: true,
+            },
+            variableValue:{
+              type: String,
+              required: true,
+            }
+          }],
           output: {
             type: String,
             required: true,
