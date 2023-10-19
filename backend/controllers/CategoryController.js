@@ -51,8 +51,6 @@ const getAllCategoryController=async(req,res)=>{
         message:'Error in get all categories'
        })
     }
-   
-
 }
 
 module.exports = {createCategoryController,getAllCategoryController}
