@@ -34,7 +34,7 @@ const ProblemDesc = () => {
 
 
   return (
-    <div style={{'padding':'1rem','overflowY':'scroll','max-height':'45rem'}}>
+    <div style={{'padding':'1rem','max-height':'100vh','overflow-y':'auto','padding-bottom':'8rem'}}>
 
       {/* Object.keys() checks if the objects contains atleast one key*/}
       {Object.keys(problem).length!=0?(<>
@@ -62,6 +62,13 @@ const ProblemDesc = () => {
           </div>
         </>  
        ))}
+
+       <div>
+         <span><strong>Constraints</strong></span>
+         {problem.constraints.map((constraint)=>(
+            <li style={{'line-height':'2rem'}}>{constraint}</li>
+         ))}
+       </div>
 
       </>    
       ):<h1>Loading...</h1>}

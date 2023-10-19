@@ -60,8 +60,8 @@ const ProblemDescription = () => {
        </div>
        {split?(
          <Split className='w-[calc(100vw-94px)]' direction='vertical'
-       gutterSize={15} sizes={[60, 40]} minSize={60}
-       style={{ maxHeight: '90vh','width':'100%' }}>
+       gutterSize={15} sizes={[70, 30]} minSize={70}
+       style={{'width':'100%','max-height':'40rem','overflow':'hidden'}}>
           <div style={{'min-height':'20rem'}}>
              <LanguageHeader/>
              <Code/>
@@ -76,9 +76,10 @@ const ProblemDescription = () => {
        ):<Split
        className='w-[calc(100vw-94px)]' direction='vertical'
        gutterSize={15} sizes={[100, 0]}
-       style={{ maxHeight: '100vh','width':'100%' }}>
+       style={{ maxHeight: '100vh','width':'100%','overflow':'hidden'}}>
         <div style={{'min-height':'20rem'}}>
-            Hello
+            <LanguageHeader/>
+             <Code/>
           </div>
           <div>
         <Footer handleSplitter={handleSplitter} split={split}/>
