@@ -1,26 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { baseUrl } from '../baseUrl';
 import { Link, useNavigate } from 'react-router-dom';
 
-const ListOfProblems = () => {
-    const [problems, setProblems] = useState([]);
-
-    const getAllProblems = async () => {
-        try {
-            const { data } = await axios.get(`${baseUrl}/api/problems/all-problems`);
-            if (data?.success) {
-                setProblems([...data.problems]);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        getAllProblems();
-    }, []);
-
+const ListOfProblems = ({problems}) => {
     // Function to get the CSS class for difficulty
     const getDifficultyClass = (difficulty) => {
         switch (difficulty) {
@@ -37,7 +18,7 @@ const ListOfProblems = () => {
 
     return (
         <div className="container">
-            <div className="container text-center"><h4>All Problems</h4></div>
+            {(problems)?<><div className="container text-center"><h4>All Problems</h4></div>
             <table className="table table-striped table-bordered">
                 <thead>
                     <tr>
@@ -57,7 +38,7 @@ const ListOfProblems = () => {
                         </tr>
                     ))}
                 </tbody>
-            </table>
+            </table></>:<div className='container text-center'>Loading ...</div>}
         </div>
     );
 };

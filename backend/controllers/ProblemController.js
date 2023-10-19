@@ -141,4 +141,27 @@ const getTotalNoOfProblems = async(req,res)=>{
 }
 }
 
-module.exports={createProblemController,getAllProblemsController,getSingleProblemController,getNextProblemController,getTotalNoOfProblems}
+const getProblemsFilter= async(req,res)=>{
+  try {
+    const {difficulty}=req.body;
+    let args={};
+    if(difficulty.length>0){
+        args.difficulty=difficulty;
+    }
+    const problems=await ProblemModel.find(args).populate("category");
+    res.status(200).send({
+        success:true,
+        problems
+    });
+  } 
+  catch (error) {
+    console.log(error)
+    res.status(400).send({
+        success:false,
+        message:'Error in Filter Problems',
+        error
+    });
+  }
+}
+
+module.exports={createProblemController,getAllProblemsController,getSingleProblemController,getNextProblemController,getTotalNoOfProblems,getProblemsFilter}
