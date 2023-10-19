@@ -22,6 +22,7 @@ const ProblemDescription = () => {
         submissions:false
     })
     const [problem,setProblem] = useState({})
+     const [split,setSplit]=useState(true) // if splitter is false then the test cases section is collapsed
 
     //Fetch the Problem Details
     const fetchProblem=async()=>{
@@ -32,6 +33,12 @@ const ProblemDescription = () => {
       catch(error){
         console.log(error)
       }
+    }
+    const handleSplitter=()=>{
+        if(split)
+        setSplit(false)
+        else
+        setSplit(true)
     }
 
     //Fetching the Problem as soon as Page Loads
@@ -52,13 +59,13 @@ const ProblemDescription = () => {
        <div>
           <div style={{'min-height':'20rem'}}>
              <LanguageHeader/>
-             <Code/>
+             <Code split={split}/>
           </div>
           <div style={{'overflow-y':'auto'}}>
             <div>
               <TestCases/>
             </div>
-            <Footer/>
+            <Footer handleSplitter={handleSplitter} split={split}/>
           </div>
        </div>
     </Split>
