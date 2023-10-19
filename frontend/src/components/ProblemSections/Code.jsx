@@ -1,8 +1,7 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Editor from "@monaco-editor/react";
-const Code = ({split}) => {
-  const code = `#include <bits/stdc++.h> \nusing namespace std;\n
-int main() { \n   cout<<\"Hello world\"<<endl; \n}`;
+const Code = ({split,code,setCode}) => {
+
   return (
     <>
     <Editor
@@ -10,6 +9,7 @@ int main() { \n   cout<<\"Hello world\"<<endl; \n}`;
       language="C++"
       theme="vs-dark"
       value={code}
+      onChange={setCode}
       options={{
         inlineSuggest: true,
         fontSize: "16px",
