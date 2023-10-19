@@ -1,12 +1,12 @@
 import React from 'react';
 import Layout from '../components/Layout/Layout';
 import AuthModal from '../components/Modal/authModal';
-import ListOfProblems from '../components/ListOfProblems';
+import FilterHeader from '../components/Layout/FilterHeader';
 const Homepage = () => {
   return (
     <div>
       <Layout type="mainHeading">
-        <ListOfProblems/>
+        <FilterHeader/>
       </Layout>
     </div>
   );
