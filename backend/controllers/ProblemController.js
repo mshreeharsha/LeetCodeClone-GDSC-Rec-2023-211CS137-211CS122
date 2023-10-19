@@ -143,10 +143,13 @@ const getTotalNoOfProblems = async(req,res)=>{
 
 const getProblemsFilter= async(req,res)=>{
   try {
-    const {difficulty}=req.body;
+    const {difficulty,tags}=req.body;
     let args={};
     if(difficulty.length>0){
         args.difficulty=difficulty;
+    }
+    if(tags.length>0){
+        args.category=tags;
     }
     const problems=await ProblemModel.find(args).populate("category");
     res.status(200).send({
