@@ -24,7 +24,7 @@ const ProblemDesc = () => {
     }
    useEffect(()=>{
      fetchProblem()
-   },[])
+   },[params.slug])
 
 
    const difficultyStyles={

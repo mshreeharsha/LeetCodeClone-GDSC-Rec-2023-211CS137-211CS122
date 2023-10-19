@@ -53,12 +53,13 @@ const ProblemDescription = () => {
     gutterSize={15} minSize={300} >
        <div style={{'margin-top':'0.5rem'}}>
        <ProblemDescHeader active={active} setActive={setActive}/>
-       {active.description?<ProblemDesc problem={problem}/>:<Submissions problem={problem}/>} 
+       {active.description?<ProblemDesc/>:<Submissions/>} 
        
        </div>
        <div>
           <div style={{'min-height':'20rem'}}>
-            Hello
+            <LanguageHeader/>
+            <Code/>
           </div>
           <div style={{'overflow-y':'auto'}}>
             <div>
