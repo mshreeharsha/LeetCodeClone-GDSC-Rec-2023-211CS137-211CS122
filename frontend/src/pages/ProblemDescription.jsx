@@ -8,19 +8,29 @@ import Code from '../components/ProblemSections/Code';
 import TestCases from '../components/ProblemSections/TestCases'
 import ProblemDescHeader from '../components/Layout/ProblemDescHeader';
 import Submissions from '../components/ProblemSections/Submissions';
+import TestCaseHeader from '../components/Layout/TestCaseHeader';
+import CustomTestCases from '../components/ProblemSections/Result';
 import './styles/split.css'
 import axios from 'axios';
 import { baseUrl } from '../baseUrl';
 import { useParams } from 'react-router-dom';
+
 const ProblemDescription = () => {
 
   //to obtain Slug from the URL
   const params=useParams()
 
-   const [active,setActive]=useState({
+   const [active,setActive]=useState({ //toggle one of the above two components in the left section
         description:true,
-        submissions:false
+        submissions:false,
     })
+
+    const [raw,setRaw]=useState(false) //toggle for custom test cases
+
+    const [testActive,setTestActive]=useState({  //toggling for result and testcases section
+      testcase:true,
+      result:false
+    }) 
     const [problem,setProblem] = useState({})
      const [split,setSplit]=useState(true) // if splitter is false then the test cases section is collapsed
 
@@ -34,6 +44,7 @@ const ProblemDescription = () => {
         console.log(error)
       }
     }
+    //to toggle the test case section to enable right side section for coding
     const handleSplitter=()=>{
         if(split)
         setSplit(false)
@@ -62,9 +73,14 @@ const ProblemDescription = () => {
             <Code/>
           </div>
           <div style={{'overflow-y':'auto'}}>
-            <div>
-              <TestCases/>
-            </div>
+            {split && (<div>
+              <TestCaseHeader active={testActive} setActive={setTestActive} raw={raw} setRaw={setRaw}/>
+              {
+                testActive.testcase?<TestCases raw={raw}/>:<CustomTestCases/>
+              }
+              
+            </div>)
+             }
             <Footer handleSplitter={handleSplitter} split={split}/>
           </div>
        </div>

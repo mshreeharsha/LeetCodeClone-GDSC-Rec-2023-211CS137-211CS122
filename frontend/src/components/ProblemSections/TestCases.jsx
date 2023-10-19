@@ -1,9 +1,9 @@
 import React from 'react';
 
-const TestCases = () => {
+const TestCases = ({raw}) => {
   return (
     <div>
-      
+      {raw?'Raw Test case':'Graphic test case'}
     </div>
   );
 }
