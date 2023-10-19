@@ -23,15 +23,6 @@ const ProblemDescription = () => {
     })
     const [problem,setProblem] = useState({})
 
-    const [split,setSplit]=useState(true) // if splitter is false then the test cases section is collapsed
-
-    const handleSplitter=()=>{
-        if(split)
-        setSplit(false)
-        else
-        setSplit(true)
-    }
-
     //Fetch the Problem Details
     const fetchProblem=async()=>{
       try{
@@ -58,10 +49,7 @@ const ProblemDescription = () => {
        {active.description?<ProblemDesc problem={problem}/>:<Submissions problem={problem}/>} 
        
        </div>
-       {split?(
-         <Split className='w-[calc(100vw-94px)]' direction='vertical'
-       gutterSize={15} sizes={[70, 30]} minSize={70}
-       style={{'width':'100%','max-height':'40rem','overflow':'hidden'}}>
+       <div>
           <div style={{'min-height':'20rem'}}>
              <LanguageHeader/>
              <Code/>
@@ -70,21 +58,9 @@ const ProblemDescription = () => {
             <div>
               <TestCases/>
             </div>
-            <Footer handleSplitter={handleSplitter} split={split}/>
+            <Footer/>
           </div>
-       </Split>
-       ):<Split
-       className='w-[calc(100vw-94px)]' direction='vertical'
-       gutterSize={15} sizes={[100, 0]}
-       style={{ maxHeight: '100vh','width':'100%','overflow':'hidden'}}>
-        <div style={{'min-height':'20rem'}}>
-            <LanguageHeader/>
-             <Code/>
-          </div>
-          <div>
-        <Footer handleSplitter={handleSplitter} split={split}/>
-        </div>
-        </Split>}        
+       </div>
     </Split>
   </Layout>
   )
