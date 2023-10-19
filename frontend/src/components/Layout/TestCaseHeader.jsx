@@ -27,7 +27,7 @@ const TestCaseHeader = ({active,setActive,raw,setRaw}) => {
                 TestCase
             </li>
             <li className='nav-item' style={{'margin-right':'1rem','cursor':'pointer','color':
-            `${active.custom?'#111':'#777'}`}} onClick={handleResultClick}>
+            `${active.result?'#111':'#777'}`}} onClick={handleResultClick}>
                 Result
             </li>
           </ul>
