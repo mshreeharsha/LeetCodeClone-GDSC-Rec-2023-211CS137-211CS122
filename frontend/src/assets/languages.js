@@ -4,4 +4,4 @@
   { value:'py',label:'Python'},
 ]
 
-export const defaultValue={ value: 'C++', label: 'C++' }
+export const defaultValue={ value: 'cpp', label: 'C++' }

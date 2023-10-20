@@ -34,16 +34,24 @@ const ProblemDescription = () => {
     const [custom,setCustom]=useState('')  //Checks whether custom input section is opened or not
     const [lines,setLines]=useState(3)    // Extract the total lines from the custom input section
 
+     
+    const [language,setLanguage]=useState({'value':'cpp','label':'C++'}) //default set for the language
+
+    const currentVersion=`${(language?.label==='C++' || language?.label==='C')?
+    '10.2.0':'3.10.0'}`
+
    let pistonFormat={        // Format for the piston API body
-      "language": "cpp",
+      "language": language?.value,
        "files": [
      {
-      "name": "main.cpp",
-      "content": `${code}`
+      "name": `main.${language?.value}`,
+      "content": code,
+      "compile_timeout": 10000,
+      "run_timeout": 3000,
     }
   ],
   "stdin": "5\n1 2 3 4 5\n9",
-  "version": "10.2.0"
+  "version": currentVersion
     }
     
 
@@ -129,7 +137,8 @@ const ProblemDescription = () => {
     },[params.slug])
 
   return (
-    <Layout type="ProblemHeader" questionNo={problem.problemNo}>
+    <Layout type="ProblemHeader" questionNo={problem.problemNo} 
+      language={language} setLanguage={setLanguage}>
     <div className="row">
       <div className="col-6" style={{"paddingRight":"0px"}}>
         <div style={{ marginTop: '0.5rem' }}>
