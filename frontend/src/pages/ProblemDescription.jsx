@@ -3,7 +3,6 @@ import React,{useEffect,useState} from 'react'
 import Split from 'react-split'
 import Footer from '../components/ProblemSections/Footer'
 import ProblemDesc from '../components/ProblemSections/ProblemDesc';
-import LanguageHeader from '../components/Layout/LanguageHeader';
 import Code from '../components/ProblemSections/Code';
 import TestCases from '../components/ProblemSections/TestCases'
 import ProblemDescHeader from '../components/Layout/ProblemDescHeader';
@@ -130,39 +129,44 @@ const ProblemDescription = () => {
     },[params.slug])
 
   return (
-  <Layout type="ProblemHeader" questionNo={problem.problemNo}>
-    
-    <Split className='split' direction='horizontal' sizes={[40, 60]} 
-    gutterSize={15} minSize={300} >
-       <div style={{'margin-top':'0.5rem'}}>
-       <ProblemDescHeader active={active} setActive={setActive}/>
-       {active.description?<ProblemDesc/>:<Submissions/>} 
-       
-       </div>
-       <div>
-          <div style={{'min-height':'20rem'}}>
-            <LanguageHeader/>
-            <Code split={split} code={code} setCode={setCode}/>
-          </div>
-          <div style={{'overflow-y':'auto'}}>
-            {split && (<div>
-              <TestCaseHeader active={testActive} setActive={setTestActive} raw={raw} setRaw={setRaw}/>
-              {
-                testActive.testcase?<TestCases raw={raw} testcases={problem.sampleTestCases}
-                custom={custom} setCustom={setCustom}/>:
-                <Result testcases={problem.sampleTestCases} raw={raw} 
-                run={run} pending={pending} customOutput={customOutput}
-                customInput={customInput}/>
-              }
-              
-            </div>)
-             }
-            <Footer handleSplitter={handleSplitter} split={split} runCodeHandler={runCodeHandler}
-             pending={pending}/>
-          </div>
-       </div>
-    </Split>
+    <Layout type="ProblemHeader" questionNo={problem.problemNo}>
+    <div className="row">
+      <div className="col-6" style={{"paddingRight":"0px"}}>
+        <div style={{ marginTop: '0.5rem' }}>
+          <ProblemDescHeader active={active} setActive={setActive} />
+          {active.description ? <ProblemDesc /> : <Submissions />}
+        </div>
+      </div>
+      <div className="col-6" style={{"paddingLeft":"0px"}}> 
+        <div style={{ minHeight: '45%' }}>
+          <Code split={split} code={code} setCode={setCode} />
+        </div>
+        <div style={{ overflowY: 'scroll', height: '38%' }}>
+          {split && (
+            <div>
+              <TestCaseHeader active={testActive} setActive={setTestActive} raw={raw} setRaw={setRaw} />
+              {testActive.testcase ? (
+                <TestCases raw={raw} testcases={problem.sampleTestCases} custom={custom} setCustom={setCustom} />
+              ) : (
+                <Result
+                  testcases={problem.sampleTestCases}
+                  raw={raw}
+                  run={run}
+                  pending={pending}
+                  customOutput={customOutput}
+                  customInput={customInput}
+                />
+              )}
+            </div>
+          )}
+        </div>
+        <div>
+          <Footer handleSplitter={handleSplitter} split={split} runCodeHandler={runCodeHandler} pending={pending} />
+        </div>
+      </div>
+    </div>
   </Layout>
+  
   )
 }
 

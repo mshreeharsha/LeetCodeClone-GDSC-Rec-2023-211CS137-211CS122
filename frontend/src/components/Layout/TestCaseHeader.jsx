@@ -22,11 +22,11 @@ const TestCaseHeader = ({active,setActive,raw,setRaw}) => {
     <div className='navbar navbar-expand-lg bg-body-tertiary'>
        <div className='container-fluid'> 
           <ul className='navbar-nav'>
-            <li className='nav-item' style={{'margin-right':'1rem','cursor':'pointer','color':
+            <li className='nav-item' style={{'marginRight':'1rem','cursor':'pointer','color':
             `${active.testcase?'#111':'#777'}`}} onClick={handleTestClick}>
                 TestCase
             </li>
-            <li className='nav-item' style={{'margin-right':'1rem','cursor':'pointer','color':
+            <li className='nav-item' style={{'marginRight':'1rem','cursor':'pointer','color':
             `${active.result?'#111':'#777'}`}} onClick={handleResultClick}>
                 Result
             </li>
@@ -34,7 +34,7 @@ const TestCaseHeader = ({active,setActive,raw,setRaw}) => {
           {active.testcase && (
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li onClick={()=>setRaw(!raw)} style={{'cursor':'pointer',
-              'color':`${raw?'black':'grey'}`,'border-bottom':`${raw?'2px solid #999':''}`}}>Custom test case</li>
+              'color':`${raw?'black':'grey'}`,'borderBottom':`${raw?'2px solid #999':''}`}}>Custom test case</li>
           </ul>
             )}
        </div>

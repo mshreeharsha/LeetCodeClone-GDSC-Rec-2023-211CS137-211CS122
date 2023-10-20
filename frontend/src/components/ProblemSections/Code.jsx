@@ -5,7 +5,7 @@ const Code = ({split,code,setCode}) => {
   return (
     <>
     <Editor
-      height={`${split?'20rem':'34rem'}`}
+      height={`${split?'45vH':'80vH'}`}
       language="C++"
       theme="vs-dark"
       value={code}
