@@ -2,7 +2,7 @@ import React from 'react';
 import Select from 'react-select'
 import {options,defaultValue} from '../../assets/languages'
 
-const LanguageHeader = () => {
+const LanguageHeader = ({language,setLanguage}) => {
 
 const customStyles={                    
     control: (baseStyles, state) => ({   //styles of the select tag
@@ -22,6 +22,8 @@ const customStyles={
        <div className='container-fluid'> 
           <ul className='navbar-nav'>
             <Select options={options} 
+            value={language}
+            onChange={(selectedOption) => setLanguage(selectedOption)}
             styles={customStyles}
             defaultValue={defaultValue}
             />
