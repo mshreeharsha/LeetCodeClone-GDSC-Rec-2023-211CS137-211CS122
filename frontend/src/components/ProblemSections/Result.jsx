@@ -1,15 +1,16 @@
 import React,{useState} from 'react';
 import './TestButton.css'
 
-const Result = ({testcases}) => {
-  const [btnTest,setBtnTest]=useState(0)
+const Result = ({testcases,raw,run,pending,customOutput,customInput}) => {
+  const [btnTest,setBtnTest]=useState(0)  // Checks which button test case is clicked. 
 
   const handleTestCase=(index)=>{
       setBtnTest(index)
   }
   return (
     <div style={{'padding':'1rem','height':'12rem','overflow-y':'auto'}}>
-        <h4 style={{'color':'green'}}>Accepted</h4>
+      {(!raw && run)?(<>
+         <h4 style={{'color':'green'}}>Accepted</h4>
         <div style={{'display':'flex','align-items':'center','margin-bottom':'1rem'}}>
           {testcases?.map((testcase,index)=>(
             <button className={`test-btn ${btnTest===index?'active':''}`} 
@@ -44,6 +45,30 @@ const Result = ({testcases}) => {
             )}
           </div>
         ))}  
+      </>):(raw && run && !pending)?(
+        <>
+          <div>
+            Custom input result
+          </div>
+          <div>
+            {customInput?.map((inp,index)=>(
+               <div style={{'border':'2px solid black',
+                 'margin-bottom':'1rem','padding':'0.5rem'}}>
+                 <h6>Input {index+1}</h6>
+                 {inp?.split('\n').map((i)=>(
+                   <>
+                     <p style={{'line-height':'0.5rem'}}>{i}</p>
+                   </>
+                 ))}
+                 <p><strong>Output {index+1}:</strong> {customOutput[index]}</p>
+                 
+               </div>
+            ))}
+          </div>
+        </>
+      )
+      :(raw && run && pending)?'Pending...':'Click on run button to show result'}
+        
     </div>
   );
 }
