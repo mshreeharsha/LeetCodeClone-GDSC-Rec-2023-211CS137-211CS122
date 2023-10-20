@@ -20,11 +20,11 @@ const ProblemDescHeader = ({active,setActive}) => {
     <div className='navbar navbar-expand-lg bg-body-tertiary'>
        <div className='container-fluid'> 
           <ul className='navbar-nav'>
-            <li className='nav-item' style={{'margin-right':'1rem','cursor':'pointer','color':
+            <li className='nav-item' style={{'marginRight':'1rem','cursor':'pointer','color':
             `${active.description?'#111':'#777'}`}} onClick={handleDescClick}>
                 Description
             </li>
-            <li className='nav-item' style={{'margin-right':'1rem','cursor':'pointer','color':
+            <li className='nav-item' style={{'marginRight':'1rem','cursor':'pointer','color':
             `${active.submissions?'#111':'#777'}`}} onClick={handleSubClick}>
                 Submissions
             </li>

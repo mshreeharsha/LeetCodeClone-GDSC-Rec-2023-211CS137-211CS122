@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft,faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios'
 import { baseUrl } from '../../baseUrl'
+import LanguageHeader from './LanguageHeader'
 
 const ProblemHeader = ({questionNo}) => {
   const navigate=useNavigate()
@@ -75,7 +76,7 @@ const ProblemHeader = ({questionNo}) => {
 
   return (
     <>
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar navbar-expand-sm bg-body-tertiary">
             <div className="container-fluid">
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
@@ -85,22 +86,24 @@ const ProblemHeader = ({questionNo}) => {
                         LeetCode
                     </Link>
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0 flex align-items">
-                        <button className='nav-item' style={{'margin-right':'1rem'}} onClick={()=>{handleClick('prev')}} ><FontAwesomeIcon icon={faChevronLeft} size="1x" /></button>
+                        <button className='nav-item' style={{'marginRight':'1rem'}} onClick={()=>{handleClick('prev')}} ><FontAwesomeIcon icon={faChevronLeft} size="1x" /></button>
                         <li className='nav-item'><FaBars size={16}/></li>
-                        <h5 style={{'margin-left':'1rem'}}>Problem List</h5>
-                        <button className='nav-item' style={{'margin-left':'1rem'}} onClick={()=>{handleClick('next')}}><FontAwesomeIcon icon={faChevronRight} size="1x" /></button>
+                        <h5 style={{'marginLeft':'1rem'}}>Problem List</h5>
+                        <button className='nav-item' style={{'marginLeft':'1rem'}} onClick={()=>{handleClick('next')}}><FontAwesomeIcon icon={faChevronRight} size="1x" /></button>
                     </ul>
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                         {/* <li className="nav-item">
                             <NavLink to='/' className="nav-link" aria-current="page" href="#">Home</NavLink>
                         </li> */}
+                        
+                        <li className='nav-item mr-5'><LanguageHeader/></li>
                         <li className='nav-item mr-5'><Timer/></li>
                         {!auth.user?(<><li className="nav-item">
-                            <button onClick={()=>{setType('register');setOpen(true)}} class="btn btn-warning" style={{"color":"white"}}>SignUp</button>
+                            <button onClick={()=>{setType('register');setOpen(true)}} className="btn btn-warning" style={{"color":"white"}}>SignUp</button>
                         {/* <NavLink to='/register' className="nav-link" href="#">SignUp</NavLink> */}
                         </li>
                         <li className="nav-item">
-                            <button onClick={()=>{setType('login');setOpen(true)}} class="btn btn-warning" style={{"color":"white","margin-left":"3px"}}>Login</button>
+                            <button onClick={()=>{setType('login');setOpen(true)}} className="btn btn-warning" style={{"color":"white","marginLeft":"3px"}}>Login</button>
                         {/* <NavLink to='/login' className="nav-link" href="#">Login</NavLink> */}
                         </li></>):(<>
                         <li className="nav-item">
@@ -109,7 +112,7 @@ const ProblemHeader = ({questionNo}) => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <button onClick={handleLogout} class="btn btn-warning" style={{"color":"white","margin-left":"3px"}}>Logout</button>
+                            <button onClick={handleLogout} className="btn btn-warning" style={{"color":"white","marginLeft":"3px"}}>Logout</button>
                             {/* <NavLink className="nav-link" onClick={handleLogout} to='/login' href="#">Logout</NavLink> */}
                         </li>
                         </>)}

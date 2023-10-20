@@ -29,12 +29,12 @@ const ProblemDesc = () => {
 
    const difficultyStyles={
      'color':problem.difficulty==="Easy"?"Green":problem.difficulty==="Medium"?"Gold":"Red",
-     'font-weight':'bold'
+     'fontWeight':'bold'
    } //setting the colour of the problem based on difficulty
 
 
   return (
-    <div style={{'padding':'1rem','max-height':'100vh','overflow-y':'auto','padding-bottom':'8rem'}}>
+    <div style={{'padding':'1rem','maxHeight':'80vH','overflowY':'auto','paddingBottom':'2rem'}}>
 
       {/* Object.keys() checks if the objects contains atleast one key*/}
       {Object.keys(problem).length!=0?(<>
@@ -53,8 +53,8 @@ const ProblemDesc = () => {
        {problem.sampleTestCases.map((testcase,index)=>(
         <>
           <span><strong>Example {index+1}:</strong></span>
-          <div style={{'border-left':'2px solid #999','padding':'1rem',
-          'margin-top':'0.5rem','margin-bottom':'1rem'}}>
+          <div style={{'borderLeft':'2px solid #999','padding':'1rem',
+          'marginTop':'0.5rem','marginBottom':'1rem'}}>
 
             <p><strong>Input: </strong>{testcase.input.map((tc,i)=>{
               return <span key={i}>
@@ -71,7 +71,7 @@ const ProblemDesc = () => {
        <div>
          <span><strong>Constraints</strong></span>
          {problem.constraints.map((constraint)=>(
-            <li style={{'line-height':'2rem'}}>{constraint}</li>
+            <li style={{'lineHeight':'2rem'}}>{constraint}</li>
          ))}
        </div>
 

@@ -8,7 +8,7 @@ const Result = ({testcases,raw,run,pending,customOutput,customInput}) => {
       setBtnTest(index)
   }
   return (
-    <div style={{'padding':'1rem','height':'12rem','overflow-y':'auto'}}>
+    <div style={{'padding':'1rem','paddingBottom':'0rem','width':'98%'}}>
       {(!raw && run)?(<>
          <h4 style={{'color':'green'}}>Accepted</h4>
         <div style={{'display':'flex','align-items':'center','margin-bottom':'1rem'}}>
@@ -32,13 +32,13 @@ const Result = ({testcases,raw,run,pending,customOutput,customInput}) => {
           <div style={{'margin':'1rem'}}>
             {index===btnTest && testcase?.input.map((inp)=>(
               <>
-              <div style={{'padding':'0.1rem','width':'50rem','background-color':'#aaa','margin-bottom':'1rem'}}>
+              <div style={{'marginTop':'1rem','width':'100%','background-color':'#aaa','marginBottom':'1rem'}}>
                  <p>{inp.variableName} = {inp.variableValue}</p>
               </div>
               </>
             ))}
             {index===btnTest && (
-            <div style={{'padding':'0.1rem','width':'50rem','background-color':'#aaa','margin-bottom':'1rem'}}>
+            <div style={{'marginTop':'1rem','width':'100%','background-color':'#aaa','marginBottom':'1rem'}}>
                 <p>Expected</p>
                 <span>{testcase.output}</span>
             </div>

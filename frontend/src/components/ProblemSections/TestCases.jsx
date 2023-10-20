@@ -9,16 +9,15 @@ const TestCases = ({raw,testcases,custom,setCustom}) => {
   }
   
   return (
-    <div style={{'padding':'1rem','height':'12rem','overflow-y':'auto'}}>
+    <div style={{'padding':'1rem','paddingBottom':'0rem','width':'98%'}}>
       {raw?(
         <div className='form-control'>
-          <textarea value={custom} style={{'width':'53.5rem',
-          'height':'10rem','border':'0px solid white',outline: 'none'}}
+          <textarea value={custom} style={{'height':'10rem','border':'0px solid white',outline: 'none'}}
           onChange={(e)=>setCustom(e.target.value)}/>
         </div>
       ):(
         <>
-        <div style={{'display':'flex','align-items':'center','margin-bottom':'1rem'}}>
+        <div style={{'display':'flex','alignItems':'center','width':'100%'}}>
           {testcases?.map((testcase,index)=>(
             <button className={`test-btn ${btnTest===index?'active':''}`} 
             onClick={()=>handleTestCase(index)} >
@@ -36,19 +35,17 @@ const TestCases = ({raw,testcases,custom,setCustom}) => {
         </div>
          <p>Input</p>
         {testcases?.map((testcase,index)=>(  
-          <div style={{'margin':'1rem'}}>
+          <div style={{'marginTop':'1rem','width':'100%'}} key={index}>
             {index===btnTest && testcase?.input.map((inp)=>(
-              <div style={{'padding':'0.1rem','width':'50rem','background-color':'#aaa','margin-bottom':'1rem'}}>
+              <div style={{'padding':'0.1rem','backgroundColor':'#aaa','marginBottom':'0.2rem'}}>
                  <p>{inp.variableName} = {inp.variableValue}</p>
               </div>
             ))}
           </div>
         ))}
-
-        
         </>
       )
-      }     
+      }    
     </div>
   );
 }
