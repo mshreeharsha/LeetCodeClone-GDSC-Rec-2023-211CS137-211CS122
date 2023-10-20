@@ -35,18 +35,25 @@ const ProblemDescription = () => {
     const [custom,setCustom]=useState('')  //Checks whether custom input section is opened or not
     const [lines,setLines]=useState(3)    // Extract the total lines from the custom input section
 
+    const [language,setLanguage]=useState({'value':'cpp','label':'C++'}) //default set for the language
+
+    const currentVersion=`${(language.label==='C++' || language.label==='C')?
+    '10.2.0':'3.10.0'}`
+
    let pistonFormat={        // Format for the piston API body
-      "language": "cpp",
+      "language": language.value,
        "files": [
      {
-      "name": "main.cpp",
-      "content": `${code}`
+      "name": `main.${language.value}`,
+      "content": code,
+      "compile_timeout": 10000,
+      "run_timeout": 3000,
     }
   ],
-  "stdin": "5\n1 2 3 4 5\n9",
-  "version": "10.2.0"
+   "stdin": "5\n1 2 3 4 5\n9",
+   "version":currentVersion
     }
-    
+
 
     const runCodeHandler=async()=>{
         setCustomInput([])  //setting the custom input to empty when the run button is clicked
@@ -90,6 +97,7 @@ const ProblemDescription = () => {
            setCustomOutput(prev=>[...prev,data.run.output]) // setting the custom output to map over in the result section
           //  console.log(customOutput)
           //  console.log(data.run.output)
+          console.log(data)
         }
         setPending(false)
     }
@@ -141,7 +149,7 @@ const ProblemDescription = () => {
        </div>
        <div>
           <div style={{'min-height':'20rem'}}>
-            <LanguageHeader/>
+            <LanguageHeader language={language} setLanguage={setLanguage}/>
             <Code split={split} code={code} setCode={setCode}/>
           </div>
           <div style={{'overflow-y':'auto'}}>
