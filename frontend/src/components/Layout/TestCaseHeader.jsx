@@ -33,7 +33,8 @@ const TestCaseHeader = ({active,setActive,raw,setRaw}) => {
           </ul>
           {active.testcase && (
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li onClick={()=>setRaw(!raw)} style={{'cursor':'pointer'}}>Source test cases</li>
+              <li onClick={()=>setRaw(!raw)} style={{'cursor':'pointer',
+              'color':`${raw?'black':'grey'}`,'border-bottom':`${raw?'2px solid #999':''}`}}>Custom test case</li>
           </ul>
             )}
        </div>
