@@ -12,7 +12,8 @@ const TestCases = ({raw,testcases,custom,setCustom}) => {
     <div style={{'padding':'1rem','paddingBottom':'0rem','width':'98%'}}>
       {raw?(
         <div className='form-control'>
-          <textarea value={custom} style={{'height':'10rem','border':'0px solid white',outline: 'none'}}
+          <textarea value={custom} style={{'height':'10rem',
+          'width':'45rem','border':'0px solid white',outline: 'none'}}
           onChange={(e)=>setCustom(e.target.value)}/>
         </div>
       ):(

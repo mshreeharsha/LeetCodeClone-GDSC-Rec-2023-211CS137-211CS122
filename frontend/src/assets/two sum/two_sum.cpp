@@ -22,21 +22,25 @@ vector<int> twoSum(vector<int> &nums, int target)
 
 int main()
 {
-    int n;
-    cin >> n;
-    vector<int> arr;
-    for (int i = 0; i < n; i++)
+    int t;
+    cin >> t;
+    while (t--)
     {
-        int a;
-        cin >> a;
-        arr.push_back(a);
+        int n;
+        cin >> n;
+        vector<int> v(n);
+        for (int i = 0; i < n; i++)
+        {
+            cin >> v[i];
+        }
+        int target;
+        cin >> target;
+        vector<int> ans = twoSum(v, target);
+        for (int i = 0; i < ans.size() - 1; i++)
+        {
+            cout << ans[i] << " ";
+        }
+        cout << ans[ans.size() - 1];
+        cout << '\n';
     }
-    int target;
-    cin >> target;
-    vector<int> result = twoSum(arr, target);
-    for (int i = 0; i < result.size(); i++)
-    {
-        cout << result[i] << " ";
-    }
-    cout << endl;
 }
