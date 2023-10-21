@@ -10,13 +10,14 @@ import axios from 'axios'
 import { baseUrl } from '../../baseUrl'
 import LanguageHeader from './LanguageHeader'
 
-const ProblemHeader = ({questionNo}) => {
+const ProblemHeader = ({questionNo,language,setLanguage}) => {
   const navigate=useNavigate()
   const [auth,setAuth]=useAuthContext()
   const [type,setType]=useState('')
   const [open,setOpen]=useState(false)
   const [totalProb,setTotalProb]=useState(0)
   const [nextSlug,setNextSlug] = useState('')
+  
   //handelling Logout Action
   //auth may contain other items other than user and token
   const handleLogout = ()=>{
@@ -96,7 +97,8 @@ const ProblemHeader = ({questionNo}) => {
                             <NavLink to='/' className="nav-link" aria-current="page" href="#">Home</NavLink>
                         </li> */}
                         
-                        <li className='nav-item mr-5'><LanguageHeader/></li>
+                        <li className='nav-item mr-5'><LanguageHeader language={language} 
+                        setLanguage={setLanguage}/></li>
                         <li className='nav-item mr-5'><Timer/></li>
                         {!auth.user?(<><li className="nav-item">
                             <button onClick={()=>{setType('register');setOpen(true)}} className="btn btn-warning" style={{"color":"white"}}>SignUp</button>

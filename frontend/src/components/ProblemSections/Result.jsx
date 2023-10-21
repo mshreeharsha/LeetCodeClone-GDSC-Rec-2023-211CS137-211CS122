@@ -1,7 +1,8 @@
 import React,{useState} from 'react';
 import './TestButton.css'
 
-const Result = ({testcases,raw,run,pending,customOutput,customInput}) => {
+const Result = ({testcases,raw,run,pending,customOutput,
+  customInput,compileError,infLoopError}) => {
   const [btnTest,setBtnTest]=useState(0)  // Checks which button test case is clicked. 
 
   const handleTestCase=(index)=>{
@@ -45,7 +46,8 @@ const Result = ({testcases,raw,run,pending,customOutput,customInput}) => {
             )}
           </div>
         ))}  
-      </>):(raw && run && !pending)?(
+      </>)
+      :(raw && run && !pending && !compileError && infLoopError===false)?(
         <>
           <div>
             Custom input result
@@ -67,7 +69,23 @@ const Result = ({testcases,raw,run,pending,customOutput,customInput}) => {
           </div>
         </>
       )
-      :(raw && run && pending)?'Pending...':'Click on run button to show result'}
+      :(raw && run && !pending && compileError)?
+      (
+        <>
+          <h3 style={{'color':'red'}}>Compile error</h3>
+          <p style={{'border':'2px solid red','padding':'1rem',
+          'color':'red'}}>{compileError}</p>
+        </>
+      )
+      :(raw && run && !pending && infLoopError===true)?
+      (
+        <>
+          <h3 style={{'color':'red'}}>Runtime error</h3>
+          <p style={{'color':'red'}}>Infinite Loop</p>
+        </>
+      )
+      :(raw && run && pending)?'Pending...'
+      :'Click on run button to show result'}
         
     </div>
   );

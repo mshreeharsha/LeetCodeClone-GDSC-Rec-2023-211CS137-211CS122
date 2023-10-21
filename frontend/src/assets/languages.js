@@ -1,9 +1,7 @@
  export const options = [
-  { value: 'C++', label: 'C++' },
-  { value: 'C', label: 'C' },
-  { value: 'Python', label: 'Python'},
-  { value: 'Java', label: 'Java'},
-  { value: 'JavaScript', label: 'JavaScript'},
+  { value: 'cpp', label: 'C++' },
+  { value: 'c', label: 'C' },
+  { value:'py',label:'Python'},
 ]
 
-export const defaultValue={ value: 'C++', label: 'C++' }
+export const defaultValue={ value: 'cpp', label: 'C++' }

@@ -34,20 +34,33 @@ const ProblemDescription = () => {
     const [custom,setCustom]=useState('')  //Checks whether custom input section is opened or not
     const [lines,setLines]=useState(3)    // Extract the total lines from the custom input section
 
+    const [compileError,setCompileError]=useState('') // Holds the state of the compilation error
+    const [infLoopError,setInfLoopError]=useState(false)
+
+     
+    const [language,setLanguage]=useState({'value':'cpp','label':'C++'}) //default set for the language
+
+    const currentVersion=`${(language?.label==='C++' || language?.label==='C')?
+    '10.2.0':'3.10.0'}`
+
    let pistonFormat={        // Format for the piston API body
-      "language": "cpp",
+      "language": language?.value,
        "files": [
      {
-      "name": "main.cpp",
-      "content": `${code}`
+      "name": `main.${language?.value}`,
+      "content": code,
+      "compile_timeout": 10000,
+      "run_timeout": 3000,
     }
   ],
   "stdin": "5\n1 2 3 4 5\n9",
-  "version": "10.2.0"
+  "version": currentVersion
     }
     
 
     const runCodeHandler=async()=>{
+        setInfLoopError(false)  //setting infinite loop error to false when the piston API is run
+        setCompileError('')  //setting compilation error to null when the piston API is run
         setCustomInput([])  //setting the custom input to empty when the run button is clicked
         setCustomOutput([])  //setting the custom output to empty when the run button is clicked
         setRun(true)        // This function is run when run button is clicked
@@ -86,9 +99,19 @@ const ProblemDescription = () => {
           pistonFormat.stdin=stdinFormat    // setting the piston API stdin input attribute
           //  console.log(pistonFormat.stdin)
            const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
+           if(data.run?.signal==='SIGKILL')
+           setInfLoopError(true)
+           else if(!data.compile?.stderr && !data.run?.stderr)
            setCustomOutput(prev=>[...prev,data.run.output]) // setting the custom output to map over in the result section
+           else if(language.value!=='py')
+           setCompileError(data.compile?.stderr)
+           else if(language.value==='py')
+           setCompileError(data.run?.stderr)
+           console.log(data)
           //  console.log(customOutput)
           //  console.log(data.run.output)
+
+
         }
         setPending(false)
     }
@@ -129,7 +152,8 @@ const ProblemDescription = () => {
     },[params.slug])
 
   return (
-    <Layout type="ProblemHeader" questionNo={problem.problemNo}>
+    <Layout type="ProblemHeader" questionNo={problem.problemNo} 
+      language={language} setLanguage={setLanguage}>
     <div className="row">
       <div className="col-6" style={{"paddingRight":"0px"}}>
         <div style={{ marginTop: '0.5rem' }}>
@@ -155,6 +179,8 @@ const ProblemDescription = () => {
                   pending={pending}
                   customOutput={customOutput}
                   customInput={customInput}
+                  compileError={compileError}
+                  infLoopError={infLoopError}
                 />
               )}
             </div>
