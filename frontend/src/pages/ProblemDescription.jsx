@@ -271,6 +271,46 @@ const ProblemDescription = () => {
       fetchProblem()
     },[params.slug])
 
+//Initial BoilerPlate Code for The problem for Each Language
+    const [boilerPlate,setBoilerPlate] = useState('')
+    //Main Function for the Code which will be COncatenated with the user written code
+    const [mainFunction,setMainFunction]=useState('')
+
+    //Fetching the BoilerPlate Code form Database
+    const fetchBoilerPlateCode = async () => {
+      try {
+        const { data } = await axios.get(`${baseUrl}/api/boilerPlate/get-singleProblemCode/${problem._id}`);
+        setBoilerPlate(data?.boilerPlateCode);
+    
+        if (boilerPlate) {
+          const desiredCode = boilerPlate.boilerPlate.find(obj => obj.language === 'cpp');
+    
+          if (desiredCode) {
+            setCode(desiredCode.initialCode);
+            setMainFunction(desiredCode.mainFunction);
+          } else {
+            // Handle the case where desired code is not found
+            console.log('Desired code not found for language "cpp"');
+          }
+        } else {
+          // Handle the case where boilerPlate is not defined
+          console.log('BoilerPlate is not defined');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    useEffect(()=>{
+      fetchBoilerPlateCode()
+    },[problem?.slug])
+
+    useEffect(()=>{
+      const desiredCode = boilerPlate?.boilerPlate?.find(obj => obj.language === language?.value);
+      setMainFunction(desiredCode?.mainFunction)
+      setCode(desiredCode?.initialCode)
+    },[language.value,boilerPlate?.boilerPlate])
+
   return (
     <Layout type="ProblemHeader" questionNo={problem.problemNo} 
       language={language} setLanguage={setLanguage}>
