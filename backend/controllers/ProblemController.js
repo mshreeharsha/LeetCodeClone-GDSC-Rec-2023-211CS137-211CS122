@@ -3,7 +3,7 @@ const slugify=require('slugify')
 
 const createProblemController=async(req,res)=>{
   try {
-    const {title,problemNo, difficulty, description, sampleTestCases , constraints , category} = req.body;
+    const {title,problemNo, difficulty, description, sampleTestCases ,givenTestCases,givenTestCasesOutput,hiddenTestCases,hiddenTestCasesOutput, constraints , category} = req.body;
     if(!title)
       return res.send({success:false,message:'Title is not entered'}) //checking if Title is entered
     if(!problemNo)
@@ -14,6 +14,14 @@ const createProblemController=async(req,res)=>{
       return res.send({success:false,message:'Description is not entered'}) //checking if description is entered
     if(!sampleTestCases)
       return res.send({success:false,message:'Sample Test Cases are not entered'}) //checking if sample Test Cases is entered
+    if(!givenTestCases)
+      return res.send({success:false,message:'Sample Test Cases for Piston are not entered'}) //checking if sample Test Cases for Pison is entered
+    if(!givenTestCasesOutput)
+      return res.send({success:false,message:'Sample Test Cases Outputs for Piston are not entered'}) //checking if sample Test Cases Output for Piston is entered
+    if(!hiddenTestCases)
+      return res.send({success:false,message:'Hidden Test Cases are not entered'}) //checking if Hidden Test Cases are entered
+    if(!hiddenTestCasesOutput)
+      return res.send({success:false,message:'Hidden Test Cases Outputs are not entered'}) //checking if Hidden Test Cases Outputs are entered
     if(!constraints)
       return res.send({success:false,message:'Constraints is not entered'}) //checking if constraints is entered
     if(!category)
@@ -36,6 +44,10 @@ const createProblemController=async(req,res)=>{
         difficulty:difficulty, 
         description:description, 
         sampleTestCases:sampleTestCases , 
+        givenTestCases:givenTestCases,
+        givenTestCasesOutput:givenTestCasesOutput,
+        hiddenTestCases:hiddenTestCases,
+        hiddenTestCasesOutput:hiddenTestCasesOutput,
         constraints:constraints , 
         category:category
     }).save();  
@@ -50,6 +62,10 @@ const createProblemController=async(req,res)=>{
         difficulty:newProblem.difficulty, 
         description:newProblem.description, 
         sampleTestCases:newProblem.sampleTestCases , 
+        givenTestCases:newProblem.givenTestCases,
+        givenTestCasesOutput:newProblem.givenTestCasesOutput,
+        hiddenTestCases:newProblem.hiddenTestCases,
+        hiddenTestCasesOutput:newProblem.hiddenTestCasesOutput,
         constraints:newProblem.constraints , 
         category:newProblem.category
       },

@@ -14,6 +14,7 @@ const mongoose = require('mongoose');
 const userRoutes=require('./routes/UserRoute')
 const categoryRoutes=require('./routes/CategoryRoute')
 const problemRoutes=require('./routes/ProblemRoute')
+const boilerPlateCodeRoutes=require('./routes/BoilerPlateCodeRoute')
 
 const app=express()
 
@@ -41,6 +42,7 @@ app.use(cors({
 app.use('/api/user',userRoutes)
 app.use('/api/categories',categoryRoutes)
 app.use('/api/problems',problemRoutes)
+app.use('/api/boilerPlate',boilerPlateCodeRoutes)
 
 
 const PORT=process.env.PORT||5000;
