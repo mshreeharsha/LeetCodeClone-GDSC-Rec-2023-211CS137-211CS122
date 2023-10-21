@@ -271,7 +271,7 @@ const ProblemDescription = () => {
       fetchProblem()
     },[params.slug])
 
-    //Initial BoilerPlate Code for The problem for Each Language
+//Initial BoilerPlate Code for The problem for Each Language
     const [boilerPlate,setBoilerPlate] = useState('')
     //Main Function for the Code which will be COncatenated with the user written code
     const [mainFunction,setMainFunction]=useState('')
