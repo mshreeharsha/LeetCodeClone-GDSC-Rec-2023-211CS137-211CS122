@@ -15,6 +15,10 @@ const BoilerPlateCodeSchema=Schema({
             type: String,
             required: true,
           },
+          mainFunction:{
+            type: String,
+            required: true,
+          }
         },
     ],
 })

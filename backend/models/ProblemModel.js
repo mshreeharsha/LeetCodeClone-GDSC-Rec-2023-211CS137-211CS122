@@ -43,6 +43,22 @@ const ProblemSchema=Schema({
           }
         },
     ],
+    givenTestCases:{
+      type: String,
+      required: true,
+    },
+    givenTestCasesOutput:{
+      type: String,
+      required: true,
+    },
+    hiddenTestCases:{
+      type: String,
+      required: true,
+    },
+    hiddenTestCasesOutput:{
+      type: String,
+      required: true,
+    },
     constraints:[{
         type: String,
         required: true,
