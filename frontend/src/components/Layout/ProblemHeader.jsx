@@ -16,6 +16,7 @@ const ProblemHeader = ({questionNo,language,setLanguage}) => {
   const [type,setType]=useState('')
   const [open,setOpen]=useState(false)
   const [totalProb,setTotalProb]=useState(0)
+  const [nextSlug,setNextSlug] = useState('')
   
   //handelling Logout Action
   //auth may contain other items other than user and token
