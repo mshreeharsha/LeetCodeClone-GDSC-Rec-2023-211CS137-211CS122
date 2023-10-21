@@ -21,35 +21,38 @@ int *twoSum(int *nums, int numsSize, int target)
 
 int main()
 {
-    int n;
-    scanf("%d", &n);
-    int *arr = (int *)malloc(n * sizeof(int));
-
-    for (int i = 0; i < n; i++)
+    int t;
+    scanf("%d", &t);
+    while (t--)
     {
-        scanf("%d", &arr[i]);
-    }
+        int n;
+        scanf("%d", &n);
+        int *arr = (int *)malloc(n * sizeof(int));
 
-    int target;
-    scanf("%d", &target);
-
-    int *result = twoSum(arr, n, target);
-
-    if (result != NULL)
-    {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < n; i++)
         {
-            printf("%d ", result[i]);
+            scanf("%d", &arr[i]);
         }
-        printf("\n");
-        free(result);
-    }
-    else
-    {
-        printf("No two elements add up to the target.\n");
-    }
 
-    free(arr);
+        int target;
+        scanf("%d", &target);
+
+        int *result = twoSum(arr, n, target);
+
+        if (result != NULL)
+        {
+            printf("%d ", result[0]);
+            printf("%d", result[1]);
+            printf("\n");
+            free(result);
+        }
+        else
+        {
+            printf("No two elements add up to the target.\n");
+        }
+
+        free(arr);
+    }
 
     return 0;
 }
