@@ -35,7 +35,10 @@ const ProblemDescription = () => {
     const [lines,setLines]=useState(3)    // Extract the total lines from the custom input section
 
     const [compileError,setCompileError]=useState('') // Holds the state of the compilation error
-    const [infLoopError,setInfLoopError]=useState(false)
+    const [infLoopError,setInfLoopError]=useState(false) //Handles infinite loop conditions
+
+    const [correctOutput,setCorrectOutput]=useState([])
+    const [accepted,setAccepted]=useState(true)
 
      
     const [language,setLanguage]=useState({'value':'cpp','label':'C++'}) //default set for the language
@@ -71,48 +74,60 @@ const ProblemDescription = () => {
           updateActive.testcase=false
           return updateActive
         })
-        const totalLines=custom.split('\n').length   // Calculate the total lines from the custom input section
-        // console.log(totalLines)
-        if(totalLines%lines!==0)
+        if(raw===true)
         {
-          alert('Wrong set of inputs')
-          return;
+            const testcases=custom.split('\n')[0]
+            const testcaseArray=custom.split('\n')
+            const totalLines=testcaseArray.length-1;
+            const lines=totalLines/testcases
+            for(let i=0;i<testcases;i++)
+            {
+               let custInput="";
+              for(let j=0;j<lines;j++)
+              {
+                 custInput+=testcaseArray[i*lines+j+1]+'\n';
+              }
+              setCustomInput(prev=>[...prev,custInput])
+            }
+            pistonFormat.stdin=custom // setting the piston API stdin input attribute
         }
-        const numTestCases=totalLines/lines        //To get the total custom test cases in the custom input section
-        const filteredTestcases=custom.split('\n')  // To get an array of the custom input such that each element in array is a line in the textarea
-        // console.log(filteredTestcases)
-        for(let i=0;i<numTestCases;i++)
+        else
         {
-           const baseLine=i*lines;          //extract the lines required for a testcase 
-           const upperLine=i*lines+lines;
-           
-           let stdinFormat=''                  //convert the user testcase to stdin format of Piston API 
-           for(let j=baseLine;j<upperLine;j++)
-           {
-              stdinFormat+=filteredTestcases[j]+'\n'
-           }
-          setCustomInput(prev=>{                   //set custom input to loop over in the result section
-          let updateCustom=[...prev,stdinFormat]
-          return updateCustom
-          })
+           pistonFormat.stdin=problem.givenTestCases
+        }
 
-          pistonFormat.stdin=stdinFormat    // setting the piston API stdin input attribute
-          //  console.log(pistonFormat.stdin)
-           const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
+        //  console.log(pistonFormat.stdin)
+            const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
            if(data.run?.signal==='SIGKILL')
            setInfLoopError(true)
-           else if(!data.compile?.stderr && !data.run?.stderr)
-           setCustomOutput(prev=>[...prev,data.run.output]) // setting the custom output to map over in the result section
+           else if(raw===true && !data.compile?.stderr && !data.run?.stderr)
+           setCustomOutput(data.run.output.split('\n')) // setting the custom output to map over in the result section
            else if(language.value!=='py')
            setCompileError(data.compile?.stderr)
            else if(language.value==='py')
            setCompileError(data.run?.stderr)
            console.log(data)
           //  console.log(customOutput)
-          //  console.log(data.run.output)
-
-
-        }
+          // console.log(data.run.output)
+           if(raw===false)
+           {
+               const givenTestCasesActual=problem.givenTestCasesOutput.split('\n')
+               const givenTestCasesPredicted=data.run.output.split('\n')
+               setCorrectOutput([])
+               setAccepted(true)
+               for(let i=0;i<givenTestCasesActual.length;i++)
+               {
+                  if(givenTestCasesActual[i]===givenTestCasesPredicted[i])
+                  setCorrectOutput(prev=>[...prev,true])
+                  else
+                  {
+                     setCorrectOutput(prev=>[...prev,false])
+                     setAccepted(false)
+                  }
+                  
+               }
+               
+           }
         setPending(false)
     }
     
@@ -133,6 +148,7 @@ const ProblemDescription = () => {
       try{
         const response = await axios.get(`${baseUrl}/api/problems/single-problem/${params.slug}`)
         setProblem(response.data.problem)
+        console.log(response.data.problem)
       }
       catch(error){
         console.log(error)
@@ -174,6 +190,8 @@ const ProblemDescription = () => {
               ) : (
                 <Result
                   testcases={problem.sampleTestCases}
+                  accepted={accepted}
+                  correctOutput={correctOutput}
                   raw={raw}
                   run={run}
                   pending={pending}
