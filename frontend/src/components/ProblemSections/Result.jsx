@@ -1,7 +1,8 @@
 import React,{useState} from 'react';
 import './TestButton.css'
 
-const Result = ({testcases,accepted,correctOutput,raw,run,pending,customOutput,
+const Result = ({testcases,accepted,correctOutput,raw,run,submit,
+  passed,success,totalTestCases,pending,customOutput,
   customInput,compileError,infLoopError}) => {
   const [btnTest,setBtnTest]=useState(0)  // Checks which button test case is clicked. 
 
@@ -10,7 +11,7 @@ const Result = ({testcases,accepted,correctOutput,raw,run,pending,customOutput,
   }
   return (
     <div style={{'padding':'1rem','paddingBottom':'0rem','width':'98%'}}>
-      {(!raw && run && !pending)?(<>
+      {(!raw && run && !pending && !compileError && infLoopError===false)?(<>
          {accepted===true?
          <h4 style={{'color':'green'}}>Accepted</h4>:
          <h4 style={{'color':'red'}}>Wrong Answer</h4>}
@@ -71,7 +72,7 @@ const Result = ({testcases,accepted,correctOutput,raw,run,pending,customOutput,
           </div>
         </>
       )
-      :(raw && run && !pending && compileError)?
+      :((run || submit) && !pending && compileError)?
       (
         <>
           <h3 style={{'color':'red'}}>Compile error</h3>
@@ -79,14 +80,28 @@ const Result = ({testcases,accepted,correctOutput,raw,run,pending,customOutput,
           'color':'red'}}>{compileError}</p>
         </>
       )
-      :(raw && run && !pending && infLoopError===true)?
+      :((run || submit) && !pending && infLoopError===true)?
       (
         <>
           <h3 style={{'color':'red'}}>Runtime error</h3>
           <p style={{'color':'red'}}>Infinite Loop</p>
         </>
       )
-      :(run && pending)?'Pending...'
+      :((run || submit) && pending)?'Pending...'
+      :(submit && !pending && !success)?
+      (
+        <>
+          <h5 style={{'color':'red'}}>Wrong Answer</h5>
+          <div style={{'color':'red'}}>{passed}/{totalTestCases} passed</div>
+        </>
+      )
+      :(submit && !pending && success)? 
+      (
+        <>
+           <h5 style={{'color':'green'}}>All Test cases passed</h5>
+           <div style={{'color':'green'}}>{passed}/{totalTestCases} passed</div>
+        </>
+      )
       :'Click on run button to show result'}
         
     </div>

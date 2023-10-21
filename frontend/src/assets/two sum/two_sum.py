@@ -6,18 +6,11 @@ def twoSum(nums, target):
     return []
 
 
-def main():
-    n = int(input())
-    arr = list(
-        map(int, input().split())
-    )  # Split the input string into a list of integers
-
-    target = int(input())
-    result = twoSum(arr, target)
-
-    for i in result:
-        print(i, end=" ")
-
-
 if __name__ == "__main__":
-    main()
+    t = int(input())
+    for _ in range(t):
+        n = int(input())
+        v = list(map(int, input().split()))
+        target = int(input())
+        ans = twoSum(v, target)
+        print(*ans)
