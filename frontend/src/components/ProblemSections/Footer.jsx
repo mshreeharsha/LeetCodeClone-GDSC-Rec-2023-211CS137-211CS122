@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import '../styles/Footer.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp,faChevronDown } from '@fortawesome/free-solid-svg-icons';
-const Footer = ({handleSplitter,split,runCodeHandler,pending}) => {
+const Footer = ({handleSplitter,split,runCodeHandler,submitButtonHandler,pending}) => {
    const [hover,setHover]=useState(false)
 
   return (
@@ -15,7 +15,7 @@ const Footer = ({handleSplitter,split,runCodeHandler,pending}) => {
       
       <ul style={{ display: 'flex', alignItems: 'center' ,'marginTop':'1rem' }}>
       <button className="btn btn-secondary" style={{ marginRight: '10px' }} onClick={runCodeHandler}>Run</button>
-      <button className="btn btn-success">Submit</button>
+      <button className="btn btn-success" onClick={submitButtonHandler}>Submit</button>
       </ul>
     </div>  
   );
