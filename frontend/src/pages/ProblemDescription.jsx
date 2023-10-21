@@ -42,21 +42,6 @@ const ProblemDescription = () => {
      
     const [language,setLanguage]=useState({'value':'cpp','label':'C++'}) //default set for the language
 
-    //Initial Starter Code for the problem
-    const [initialCode,setInitialCode]=useState('')
-    //Main Function for the Code which will be COncatenated with the user written code
-    const [mainFunction,setMainFunction]=useState('')
-
-    //Fetching the BoilerPlate Code form Database
-    const fetchBoilerPlateCode = async()=>{
-      try{
-        
-      }
-      catch(error){
-        console.log(error)
-      }
-    }
-
     const currentVersion=`${(language?.label==='C++' || language?.label==='C')?
     '10.2.0':'3.10.0'}`
 
@@ -154,15 +139,15 @@ const ProblemDescription = () => {
       testcase:true,
       result:false
     }) 
+    const [split,setSplit]=useState(true) // if splitter is false then the test cases section is collapsed
+
     const [problem,setProblem] = useState({})
-     const [split,setSplit]=useState(true) // if splitter is false then the test cases section is collapsed
 
     //Fetch the Problem Details
     const fetchProblem=async()=>{
       try{
         const response = await axios.get(`${baseUrl}/api/problems/single-problem/${params.slug}`)
         setProblem(response.data.problem)
-        console.log(response.data.problem)
       }
       catch(error){
         console.log(error)
@@ -180,6 +165,47 @@ const ProblemDescription = () => {
     useEffect(()=>{
       fetchProblem()
     },[params.slug])
+
+
+    //Initial BoilerPlate Code for The problem for Each Language
+    const [boilerPlate,setBoilerPlate] = useState('')
+    //Main Function for the Code which will be COncatenated with the user written code
+    const [mainFunction,setMainFunction]=useState('')
+
+    //Fetching the BoilerPlate Code form Database
+    const fetchBoilerPlateCode = async () => {
+      try {
+        const { data } = await axios.get(`${baseUrl}/api/boilerPlate/get-singleProblemCode/${problem._id}`);
+        setBoilerPlate(data?.boilerPlateCode);
+    
+        if (boilerPlate) {
+          const desiredCode = boilerPlate.boilerPlate.find(obj => obj.language === 'cpp');
+    
+          if (desiredCode) {
+            setCode(desiredCode.initialCode);
+            setMainFunction(desiredCode.mainFunction);
+          } else {
+            // Handle the case where desired code is not found
+            console.log('Desired code not found for language "cpp"');
+          }
+        } else {
+          // Handle the case where boilerPlate is not defined
+          console.log('BoilerPlate is not defined');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    useEffect(()=>{
+      fetchBoilerPlateCode()
+    },[problem?.slug])
+
+    useEffect(()=>{
+      const desiredCode = boilerPlate?.boilerPlate?.find(obj => obj.language === language?.value);
+      setMainFunction(desiredCode?.mainFunction)
+      setCode(desiredCode?.initialCode)
+    },[language.value,boilerPlate?.boilerPlate])
 
   return (
     <Layout type="ProblemHeader" questionNo={problem.problemNo} 
