@@ -1,6 +1,5 @@
 import Layout from '../components/Layout/Layout';
 import React,{useEffect,useState} from 'react'
-import Split from 'react-split'
 import Footer from '../components/ProblemSections/Footer'
 import ProblemDesc from '../components/ProblemSections/ProblemDesc';
 import Code from '../components/ProblemSections/Code';
@@ -42,6 +41,21 @@ const ProblemDescription = () => {
 
      
     const [language,setLanguage]=useState({'value':'cpp','label':'C++'}) //default set for the language
+
+    //Initial Starter Code for the problem
+    const [initialCode,setInitialCode]=useState('')
+    //Main Function for the Code which will be COncatenated with the user written code
+    const [mainFunction,setMainFunction]=useState('')
+
+    //Fetching the BoilerPlate Code form Database
+    const fetchBoilerPlateCode = async()=>{
+      try{
+        
+      }
+      catch(error){
+        console.log(error)
+      }
+    }
 
     const currentVersion=`${(language?.label==='C++' || language?.label==='C')?
     '10.2.0':'3.10.0'}`
