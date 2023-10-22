@@ -14,12 +14,15 @@ import './styles/split.css'
 import axios from 'axios';
 import { baseUrl } from '../baseUrl';
 import { useParams } from 'react-router-dom';
+import SubmissionCode from '../components/ProblemSections/SubmissionCode';
 
 const ProblemDescription = () => {
 
   //to obtain Slug from the URL
   const params=useParams()
   const [auth,setAuth]=useAuthContext()
+  const [submissionCode,setSubmissionCode]=useState('') //The code that comes up when user clicks a submission
+  const [editorCode,setEditorCode]=useState(true)  //Checks whether submission code should be opened up or editor code
  
 
    const [active,setActive]=useState({ //toggle one of the above two components in the left section
@@ -48,8 +51,6 @@ const ProblemDescription = () => {
     const [success,setSuccess]=useState(true) //indicates whether all test cases passed or not
     const [totalTestCases,setTotalTestCases]=useState(0) //gets a list of all hidden testcases
     
-
-
 
      const [raw,setRaw]=useState(false) //toggle for custom test cases
 
@@ -125,7 +126,6 @@ const ProblemDescription = () => {
           const userCode = code
           setCode(concatenatedCode)
           console.log(concatenatedCode)
-
            const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
            setCode(userCode)
            if(data.run?.signal==='SIGKILL')
@@ -187,6 +187,21 @@ const ProblemDescription = () => {
             })
             setSplit(true)        //popping up the result section even if submit button is clicked without test case section being opened
             setInfLoopError(true)
+            const {dataReceive}=await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+              ProblemId:problem._id,
+              UserId:auth.user._id,
+              status:'Runtime Error',
+              language:language.label,
+              user_code:code,
+              passed:'',
+              hiddenTestCases:'',
+              errors:'Infinite Loop Error',
+            })
+
+            if(!dataReceive.success)
+            {
+               alert('Error in submitting code')
+            }
           }
 
 
@@ -199,7 +214,22 @@ const ProblemDescription = () => {
             return updateActive
             })
             setSplit(true)
-              setCompileError(data.compile?.stderr)
+            setCompileError(data.compile?.stderr)
+            const {dataReceive}=await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+              ProblemId:problem._id,
+              UserId:auth.user._id,
+              status:'Compile Error',
+              language:language.label,
+              user_code:code,
+              passed:'',
+              hiddenTestCases:'',
+              errors:data.compile.stderr,
+            })
+
+            if(!dataReceive.success)
+            {
+               alert('Error in submitting code')
+            }
            }
            
            else if(language.value==='py' && data.run.stderr)
@@ -212,6 +242,22 @@ const ProblemDescription = () => {
               })
               setSplit(true)
                setCompileError(data.run?.stderr)
+
+               const {dataReceive}=await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+              ProblemId:problem._id,
+              UserId:auth.user._id,
+              status:'Compile Error',
+              language:language.label,
+              user_code:code,
+              passed:'',
+              hiddenTestCases:'',
+              errors:data.run.stderr,
+            })
+
+            if(!dataReceive.success)
+            {
+               alert('Error in submitting code')
+            }
            }
            
            else
@@ -240,6 +286,22 @@ const ProblemDescription = () => {
                   return updateActive
                   })
                   setSplit(false)
+
+                  const {dataReceive}=await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+                  ProblemId:problem._id,
+                  UserId:auth.user._id,
+                  status:'Accepted',
+                  language:language.label,
+                  user_code:code,
+                  passed:'',
+                  hiddenTestCases:'',
+                  errors:'',
+                  })
+
+                 if(!dataReceive.success)
+                 {
+                    alert('Error in submitting code')
+                 }
                }
                else
                {
@@ -250,12 +312,28 @@ const ProblemDescription = () => {
                   return updateActive
                   })
                   setSplit(true)
-                  console.log('Some test cases failed')
+                  const {dataReceive}=await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+                  ProblemId:problem._id,
+                  UserId:auth.user._id,
+                  status:'Wrong Answer',
+                  language:language.label,
+                  user_code:code,
+                  passed:passed,
+                  hiddenTestCases:totalTestCases,
+                  errors:'',
+                  })
+
+                 if(!dataReceive.success)
+                 {
+                    alert('Error in submitting code')
+                 }
                }
 
              
           }
           setPending(false)
+
+
 
     }
 
@@ -333,13 +411,17 @@ const ProblemDescription = () => {
     <div className="row">
       <div className="col-6" style={{"paddingRight":"0px"}}>
         <div style={{ marginTop: '0.5rem' }}>
-          <ProblemDescHeader active={active} setActive={setActive} />
-          {active.description ? <ProblemDesc /> : <Submissions slug={params.slug} email={auth.user.email}/>}
+          <ProblemDescHeader active={active} setActive={setActive}
+           setEditorCode={setEditorCode} setSplit={setSplit}/>
+          {active.description ? <ProblemDesc /> : <Submissions slug={params.slug} email={auth.user.email}
+          submissionCode={submissionCode} setSubmissionCode={setSubmissionCode} 
+          editorCode={editorCode} setEditorCode={setEditorCode} setSplit={setSplit}/>}
         </div>
       </div>
       <div className="col-6" style={{"paddingLeft":"0px"}}> 
         <div style={{ minHeight: '45%' }}>
-          <Code split={split} code={code} setCode={setCode} />
+          {editorCode?<Code split={split} code={code} setCode={setCode} />:
+          <SubmissionCode submissionCode={submissionCode} split={split}/>}
         </div>
         <div style={{ overflowY: 'scroll', maxHeight: '38%' }}>
           {split && (

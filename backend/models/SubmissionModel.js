@@ -31,6 +31,9 @@ const SubmissionSchema=Schema({
     hidden_testcases:{
         type:Number
     },
+    errors:{
+        type:String
+    },
     createdAt:{
         type:Date,
         default:Date.now()

@@ -5,7 +5,8 @@ import { baseUrl } from '../../baseUrl';
 
 import {CDropdown,CDropdownItem,CDropdownToggle,CDropdownMenu} from '@coreui/react'
 import { useAuthContext } from '../../context/AuthContext'; 
-const Submissions = ({slug,email}) => {
+const Submissions = ({slug,email,submissionCode,setSubmissionCode,
+  editorCode,setEditorCode,setSplit}) => {
   const [submissions,setSubmissions]=useState([])
   const [statusActive,setStatusActive]=useState('')
   const [languageActive,setLanguageActive]=useState('')
@@ -29,9 +30,6 @@ const Submissions = ({slug,email}) => {
        alert('Error in fetching submissions')
     }
   }
-
-  console.log(statusActive)
-  console.log(languageActive)
 
   useEffect(()=>{
    fetchSubmissions()
@@ -89,7 +87,9 @@ const Submissions = ({slug,email}) => {
         return submission
        })
        .map((submission,index)=>(
-          <div style={{'border-bottom':'2px solid black','height':'3rem','padding':'0.5rem'}}>
+          <div style={{'border-bottom':'2px solid black','height':'3rem','padding':'0.5rem',
+          'cursor':'pointer'}}
+          onClick={()=>{setSubmissionCode(submission);setEditorCode(false);setSplit(false)}}>
              <span style={{'margin-right':'6rem','font-weight':'bold',
              'margin-left':'2rem','color':`${submission.status==='Accepted'?'green':'red'}`}}>
                 {submission.status}
