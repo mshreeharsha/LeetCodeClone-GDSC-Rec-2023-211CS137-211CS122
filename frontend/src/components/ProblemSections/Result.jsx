@@ -16,7 +16,7 @@ const Result = ({testcases,accepted,correctOutput,raw,run,submit,
          {accepted===true?
          <h4 style={{'color':'green'}}>Accepted</h4>:
          <h4 style={{'color':'red'}}>Wrong Answer</h4>}
-        <div style={{'display':'flex','align-items':'center','margin-bottom':'1rem'}}>
+        <div style={{'display':'flex','align-items':'center'}}>
           {testcases?.map((testcase,index)=>(
             <button className={`test-btn ${btnTest===index?'active':''}`} 
             onClick={()=>handleTestCase(index)} >
