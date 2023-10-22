@@ -40,4 +40,23 @@ const addBoilerPlateCodeController =async(req,res)=>{
       }
 }
 
-module.exports={addBoilerPlateCodeController}
+const getBoilerPlateSingleProblem = async(req,res)=>{
+  try{
+    const problemId = req.params.pid
+    const boilerPlateCode = await BoilerPlateModel.findOne({problemId:problemId})
+    res.status(201).send({
+      success:true,
+      message:'Successfully Fetched Boiler Plate for The Problem',
+      boilerPlateCode
+    })
+  }
+  catch(error){
+    res.status(404).send({
+      success: false,
+      message: "BoilerPlate Code Fetching failed",
+      error: error.message,
+    });
+  }
+}
+
+module.exports={addBoilerPlateCodeController,getBoilerPlateSingleProblem}

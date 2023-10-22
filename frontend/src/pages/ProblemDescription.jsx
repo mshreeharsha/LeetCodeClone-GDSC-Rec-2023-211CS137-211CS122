@@ -114,11 +114,20 @@ const ProblemDescription = () => {
         }
         else
         {
-           pistonFormat.stdin=problem.givenTestCases  // setting the given testcases to the piston API
+           pistonFormat.stdin=problem.givenTestCases // setting the given testcases to the piston API
+           console.log(problem.givenTestCases)  
         }
 
-        //  console.log(pistonFormat.stdin)
-            const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
+        
+          //Concatenating the Code with the main function and Header File
+
+          const concatenatedCode = headerFile+code+mainFunction
+          const userCode = code
+          setCode(concatenatedCode)
+          console.log(concatenatedCode)
+
+           const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
+           setCode(userCode)
            if(data.run?.signal==='SIGKILL')
            setInfLoopError(true)
            else if(raw===true && !data.compile?.stderr && !data.run?.stderr) //this indicates that for custom inputs where there is no runtime or compile time error set the generated output for the custom input.
@@ -134,6 +143,7 @@ const ProblemDescription = () => {
            {
                const givenTestCasesActual=problem.givenTestCasesOutput.split('\n') // actual output for the given testcases that is fetched from database
                const givenTestCasesPredicted=data.run.output.split('\n')  //generated output
+               console.log(givenTestCasesPredicted)
                setCorrectOutput([]) //Initially previous outputs are cleared
                setAccepted(true)  // Indicates that if one test case is failed accepted becomes false later on
                for(let i=0;i<givenTestCasesActual.length;i++)
@@ -273,10 +283,12 @@ const ProblemDescription = () => {
       fetchProblem()
     },[params.slug])
 
-//Initial BoilerPlate Code for The problem for Each Language
+    //Initial BoilerPlate Code for The problem for Each Language
     const [boilerPlate,setBoilerPlate] = useState('')
     //Main Function for the Code which will be COncatenated with the user written code
     const [mainFunction,setMainFunction]=useState('')
+    //Header File Code if exists
+    const [headerFile,setHeaderFile]=useState('')
 
     //Fetching the BoilerPlate Code form Database
     const fetchBoilerPlateCode = async () => {
@@ -290,6 +302,7 @@ const ProblemDescription = () => {
           if (desiredCode) {
             setCode(desiredCode.initialCode);
             setMainFunction(desiredCode.mainFunction);
+            setHeaderFile(desiredCode?.headerFilesCode)
           } else {
             // Handle the case where desired code is not found
             console.log('Desired code not found for language "cpp"');
@@ -305,12 +318,13 @@ const ProblemDescription = () => {
     
     useEffect(()=>{
       fetchBoilerPlateCode()
-    },[problem?.slug])
+    },[problem])
 
     useEffect(()=>{
       const desiredCode = boilerPlate?.boilerPlate?.find(obj => obj.language === language?.value);
       setMainFunction(desiredCode?.mainFunction)
       setCode(desiredCode?.initialCode)
+      setHeaderFile(desiredCode?.headerFilesCode)
     },[language.value,boilerPlate?.boilerPlate])
 
   return (
@@ -327,7 +341,7 @@ const ProblemDescription = () => {
         <div style={{ minHeight: '45%' }}>
           <Code split={split} code={code} setCode={setCode} />
         </div>
-        <div style={{ overflowY: 'scroll', height: '38%' }}>
+        <div style={{ overflowY: 'scroll', maxHeight: '38%' }}>
           {split && (
             <div>
               <TestCaseHeader active={testActive} setActive={setTestActive} raw={raw} setRaw={setRaw} />

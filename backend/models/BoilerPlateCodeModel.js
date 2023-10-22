@@ -11,6 +11,9 @@ const BoilerPlateCodeSchema=Schema({
             type: String,
             required: true,
           },
+          headerFilesCode:{
+            type: String,
+          },
           initialCode: {
             type: String,
             required: true,
