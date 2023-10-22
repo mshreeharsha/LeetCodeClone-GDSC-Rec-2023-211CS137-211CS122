@@ -4,7 +4,7 @@ const UserModel=require('../models/UserModel')
 
 const createSubmissionController=async(req,res)=>{
     try{
-       const {problemId,userId,status,language,user_code,passed,hidden_testcases}=req.body
+       const {problemId,userId,status,language,user_code,passed,hidden_testcases,errors}=req.body
        if(!problemId)
        return res.send({success:'false',message:'Enter problem ID'})
        if(!userId)
@@ -24,6 +24,7 @@ const createSubmissionController=async(req,res)=>{
           user_code:user_code,
           passed:status==='Wrong Answer'?passed:'',
           hidden_testcases:status==='Wrong Answer'?hidden_testcases:'',
+          errors: (status==='Compile Error'|| status==='Runtime Error')?errors:''
         }).save()
         
         res.send({
