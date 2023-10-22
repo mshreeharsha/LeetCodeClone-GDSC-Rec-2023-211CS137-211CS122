@@ -354,7 +354,8 @@ const ProblemDescription = () => {
         </div>
         <div>
           <Footer handleSplitter={handleSplitter} split={split} 
-          runCodeHandler={runCodeHandler} submitButtonHandler={submitButtonHandler} pending={pending} />
+          runCodeHandler={runCodeHandler} submitButtonHandler={submitButtonHandler} pending={pending} 
+          run={run} submit={submit}/>
         </div>
       </div>
     </div>

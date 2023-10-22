@@ -1,4 +1,5 @@
 import React,{useState} from 'react';
+import ClipLoader from "react-spinners/ClipLoader"
 import './TestButton.css'
 
 const Result = ({testcases,accepted,correctOutput,raw,run,submit,
@@ -87,7 +88,17 @@ const Result = ({testcases,accepted,correctOutput,raw,run,submit,
           <p style={{'color':'red'}}>Infinite Loop</p>
         </>
       )
-      :((run || submit) && pending)?'Pending...'
+      :((run || submit) && pending)?
+      (
+        <>
+          <ClipLoader
+          loading={pending}
+          size={100}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+          />
+        </>
+      )
       :(submit && !pending && !success)?
       (
         <>
