@@ -15,6 +15,7 @@ const userRoutes=require('./routes/UserRoute')
 const categoryRoutes=require('./routes/CategoryRoute')
 const problemRoutes=require('./routes/ProblemRoute')
 const boilerPlateCodeRoutes=require('./routes/BoilerPlateCodeRoute')
+const submissionRoutes=require('./routes/SubmissionRoute')
 
 const app=express()
 
@@ -43,6 +44,7 @@ app.use('/api/user',userRoutes)
 app.use('/api/categories',categoryRoutes)
 app.use('/api/problems',problemRoutes)
 app.use('/api/boilerPlate',boilerPlateCodeRoutes)
+app.use('/api/submissions',submissionRoutes)
 
 
 const PORT=process.env.PORT||5000;

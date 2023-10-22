@@ -9,6 +9,7 @@ import ProblemDescHeader from '../components/Layout/ProblemDescHeader';
 import Submissions from '../components/ProblemSections/Submissions';
 import TestCaseHeader from '../components/Layout/TestCaseHeader';
 import Result from '../components/ProblemSections/Result';
+import { useAuthContext } from '../context/AuthContext';
 import './styles/split.css'
 import axios from 'axios';
 import { baseUrl } from '../baseUrl';
@@ -18,7 +19,8 @@ const ProblemDescription = () => {
 
   //to obtain Slug from the URL
   const params=useParams()
-  
+  const [auth,setAuth]=useAuthContext()
+ 
 
    const [active,setActive]=useState({ //toggle one of the above two components in the left section
         description:true,
@@ -318,7 +320,7 @@ const ProblemDescription = () => {
       <div className="col-6" style={{"paddingRight":"0px"}}>
         <div style={{ marginTop: '0.5rem' }}>
           <ProblemDescHeader active={active} setActive={setActive} />
-          {active.description ? <ProblemDesc /> : <Submissions />}
+          {active.description ? <ProblemDesc /> : <Submissions slug={params.slug} email={auth.user.email}/>}
         </div>
       </div>
       <div className="col-6" style={{"paddingLeft":"0px"}}> 
