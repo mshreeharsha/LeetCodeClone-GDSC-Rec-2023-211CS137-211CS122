@@ -121,13 +121,12 @@ const ProblemDescription = () => {
         
           //Concatenating the Code with the main function and Header File
 
-          const concatenatedCode = headerFile+code+mainFunction
-          const userCode = code
-          setCode(concatenatedCode)
-          console.log(concatenatedCode)
+          let concatenatedCode = headerFile+code+mainFunction
+          pistonFormat.files[0].content=concatenatedCode
+          // console.log(pistonFormat.files[0].content)
+          // console.log(pistonFormat)
 
            const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
-           setCode(userCode)
            if(data.run?.signal==='SIGKILL')
            setInfLoopError(true)
            else if(raw===true && !data.compile?.stderr && !data.run?.stderr) //this indicates that for custom inputs where there is no runtime or compile time error set the generated output for the custom input.
@@ -175,6 +174,8 @@ const ProblemDescription = () => {
         setPassed(0)  // This number tells us how many hidden test cases have passed
         
         pistonFormat.stdin=problem.hiddenTestCases
+        let concatenatedCode = headerFile+code+mainFunction
+        pistonFormat.files[0].content=concatenatedCode
         const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
 
           if(data.run?.signal==='SIGKILL')
