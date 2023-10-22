@@ -123,11 +123,11 @@ const ProblemDescription = () => {
           //Concatenating the Code with the main function and Header File
 
           const concatenatedCode = headerFile+code+mainFunction
-          const userCode = code
-          setCode(concatenatedCode)
-          console.log(concatenatedCode)
+          // setCode(concatenatedCode)
+          pistonFormat.files[0].content=concatenatedCode
+          // console.log(concatenatedCode)
            const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
-           setCode(userCode)
+          //  setCode(userCode)
            if(data.run?.signal==='SIGKILL')
            setInfLoopError(true)
            else if(raw===true && !data.compile?.stderr && !data.run?.stderr) //this indicates that for custom inputs where there is no runtime or compile time error set the generated output for the custom input.
@@ -175,6 +175,12 @@ const ProblemDescription = () => {
         setPassed(0)  // This number tells us how many hidden test cases have passed
         
         pistonFormat.stdin=problem.hiddenTestCases
+        //Concatenating the Code with the main function and Header File
+
+          const concatenatedCode = headerFile+code+mainFunction
+          // setCode(concatenatedCode)
+          pistonFormat.files[0].content=concatenatedCode
+          // console.log(concatenatedCode)
         const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
 
           if(data.run?.signal==='SIGKILL')
@@ -187,21 +193,16 @@ const ProblemDescription = () => {
             })
             setSplit(true)        //popping up the result section even if submit button is clicked without test case section being opened
             setInfLoopError(true)
-            const {dataReceive}=await axios.post(`${baseUrl}/api/submissions/create-submission`,{
-              ProblemId:problem._id,
-              UserId:auth.user._id,
+            await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+              problemId:problem._id,
+              userId:auth.user.userId,
               status:'Runtime Error',
               language:language.label,
               user_code:code,
               passed:'',
-              hiddenTestCases:'',
+              hidden_testcases:'',
               errors:'Infinite Loop Error',
             })
-
-            if(!dataReceive.success)
-            {
-               alert('Error in submitting code')
-            }
           }
 
 
@@ -215,21 +216,17 @@ const ProblemDescription = () => {
             })
             setSplit(true)
             setCompileError(data.compile?.stderr)
-            const {dataReceive}=await axios.post(`${baseUrl}/api/submissions/create-submission`,{
-              ProblemId:problem._id,
-              UserId:auth.user._id,
+            await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+              problemId:problem._id,
+              userId:auth.user.userId,
               status:'Compile Error',
               language:language.label,
               user_code:code,
               passed:'',
-              hiddenTestCases:'',
+              hidden_testcases:'',
               errors:data.compile.stderr,
             })
 
-            if(!dataReceive.success)
-            {
-               alert('Error in submitting code')
-            }
            }
            
            else if(language.value==='py' && data.run.stderr)
@@ -243,21 +240,17 @@ const ProblemDescription = () => {
               setSplit(true)
                setCompileError(data.run?.stderr)
 
-               const {dataReceive}=await axios.post(`${baseUrl}/api/submissions/create-submission`,{
-              ProblemId:problem._id,
-              UserId:auth.user._id,
+               await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+              problemId:problem._id,
+              userId:auth.user.userId,
               status:'Compile Error',
               language:language.label,
               user_code:code,
               passed:'',
-              hiddenTestCases:'',
+              hidden_testcases:'',
               errors:data.run.stderr,
             })
 
-            if(!dataReceive.success)
-            {
-               alert('Error in submitting code')
-            }
            }
            
            else
@@ -286,22 +279,16 @@ const ProblemDescription = () => {
                   return updateActive
                   })
                   setSplit(false)
-
-                  const {dataReceive}=await axios.post(`${baseUrl}/api/submissions/create-submission`,{
-                  ProblemId:problem._id,
-                  UserId:auth.user._id,
+                  await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+                  problemId:problem._id,
+                  userId:auth.user.userId,
                   status:'Accepted',
                   language:language.label,
                   user_code:code,
                   passed:'',
-                  hiddenTestCases:'',
+                  hidden_testcases:'',
                   errors:'',
                   })
-
-                 if(!dataReceive.success)
-                 {
-                    alert('Error in submitting code')
-                 }
                }
                else
                {
@@ -312,21 +299,16 @@ const ProblemDescription = () => {
                   return updateActive
                   })
                   setSplit(true)
-                  const {dataReceive}=await axios.post(`${baseUrl}/api/submissions/create-submission`,{
-                  ProblemId:problem._id,
-                  UserId:auth.user._id,
+                  await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+                  problemId:problem._id,
+                  userId:auth.user.userId,
                   status:'Wrong Answer',
                   language:language.label,
                   user_code:code,
                   passed:passed,
-                  hiddenTestCases:totalTestCases,
+                  hidden_testcases:totalTestCases,
                   errors:'',
                   })
-
-                 if(!dataReceive.success)
-                 {
-                    alert('Error in submitting code')
-                 }
                }
 
              
