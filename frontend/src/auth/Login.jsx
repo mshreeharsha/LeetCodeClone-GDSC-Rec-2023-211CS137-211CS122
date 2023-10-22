@@ -43,7 +43,7 @@ const Login = ({setOpen}) => {
       }
     }
     catch(error){
-      console.log("Some error")
+      alert('Some error')
     }
   }
 
