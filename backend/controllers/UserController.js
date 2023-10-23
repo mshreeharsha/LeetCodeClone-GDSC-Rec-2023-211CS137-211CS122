@@ -147,4 +147,22 @@ const addToListController = async(req,res)=>{
   }
 }
 
-module.exports={registerController,loginController,addToListController}
+const getUserDetailsController = async(req,res)=>{
+  try{
+    const uid=req.params.uid
+    const user = await UserModel.findById(uid)
+    res.status(200).send({
+      success:true,
+      message:'User Fetched Successfully',
+      user
+    })
+  }
+  catch(error){
+    res.status(404).send({
+      success: false,
+      message:error.message
+    })
+  }
+}
+
+module.exports={registerController,loginController,addToListController,getUserDetailsController}
