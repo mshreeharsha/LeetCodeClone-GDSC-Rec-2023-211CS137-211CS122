@@ -126,7 +126,6 @@ const ProblemDescription = () => {
           pistonFormat.files[0].content=concatenatedCode
 
            const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
-           setCode(userCode)
            if(data.run?.signal==='SIGKILL')
            setInfLoopError(true)
            else if(raw===true && !data.compile?.stderr && !data.run?.stderr) //this indicates that for custom inputs where there is no runtime or compile time error set the generated output for the custom input.
