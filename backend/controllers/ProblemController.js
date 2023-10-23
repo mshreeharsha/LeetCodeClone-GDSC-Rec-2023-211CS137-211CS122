@@ -183,4 +183,32 @@ const getProblemsFilter= async(req,res)=>{
   }
 }
 
-module.exports={createProblemController,getAllProblemsController,getSingleProblemController,getNextProblemController,getTotalNoOfProblems,getProblemsFilter}
+const searchProblemController = async(req,res) => {
+  try {
+      const{keyword} = req.params;
+      
+      //$options: "i": The $regex operator performs a regular expression search on the specified field. In this case, it matches the keyword value in a case-insensitive manner ($options: "i").
+
+      const results = await ProblemModel.find({
+          $or: [
+              {title :{$regex : keyword , $options: "i"}},
+              {description :{$regex : keyword , $options: "i"}},
+          ]
+      }).populate("category");
+      console.log(results)
+      res.status(201).send({
+        success:true,
+        message:'Problems Fetched Successfully',
+        results
+      })
+  } catch (error) {
+      console.log(error);
+      res.status(400).send({
+          success: false,
+          message: "Error in search Problem api",
+          error
+      });
+  }
+}
+
+module.exports={createProblemController,getAllProblemsController,getSingleProblemController,getNextProblemController,getTotalNoOfProblems,getProblemsFilter,searchProblemController}

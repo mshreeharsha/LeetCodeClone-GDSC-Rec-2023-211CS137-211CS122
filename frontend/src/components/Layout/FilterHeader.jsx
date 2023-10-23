@@ -38,6 +38,7 @@ const FilterHeader = ()=>{
     const [tags, setTags] = useState([]);
     const [category, SetCategory] = useState([]);
 
+    //The User Typed Search Value
     const [values,setValues]=useState('')
 
     const getAllProblems = async () => {
@@ -155,7 +156,8 @@ const FilterHeader = ()=>{
     const handleSearchSubmit = async(e)=>{
         try{
             e.preventDefault();
-
+            const {data} = await axios.get(`${baseUrl}/api/problems/search/${values}`)
+            setProblems(data.results)
             setValues('');
         }
         catch(error){
