@@ -198,6 +198,7 @@ const ProblemDescription = () => {
               hidden_testcases:'',
               errors:'Infinite Loop Error',
             })
+            solvedAndAttempted("Attempted");
           }
 
 
@@ -221,7 +222,7 @@ const ProblemDescription = () => {
               hidden_testcases:'',
               errors:data.compile.stderr,
             })
-
+            solvedAndAttempted("Attempted");
            }
            
            else if(language.value==='py' && data.run.stderr)
@@ -245,7 +246,7 @@ const ProblemDescription = () => {
               hidden_testcases:'',
               errors:data.run.stderr,
             })
-
+            solvedAndAttempted("Attempted");
            }
            
            else
@@ -284,6 +285,7 @@ const ProblemDescription = () => {
                   hidden_testcases:'',
                   errors:'',
                   })
+                  solvedAndAttempted("Solved");
                }
                else
                {
@@ -304,14 +306,10 @@ const ProblemDescription = () => {
                   hidden_testcases:totalTestCases,
                   errors:'',
                   })
+                  solvedAndAttempted("Attempted");
                }
-
-             
           }
           setPending(false)
-
-
-
     }
 
     //Fetch the Problem Details
@@ -422,6 +420,19 @@ const ProblemDescription = () => {
           localStorage.removeItem(`problem_${problem._id}_${language.value}_${auth.user.userId}`)
         }
         setCode(desiredCode?.initialCode)
+      }
+    }
+
+    //Accounting the List of Problems solved and Attempted by user
+    const solvedAndAttempted = async(status)=>{
+      try{
+        const pid=problem._id
+        if(status==='Attempted' && auth.user!=null){
+          const response = await axios.patch(`${baseUrl}/api/user/addToList/${auth.user.userId}`,{status,pid})
+        }
+      }
+      catch(error){
+        console.log(error)
       }
     }
 
