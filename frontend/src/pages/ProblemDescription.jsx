@@ -14,12 +14,15 @@ import './styles/split.css'
 import axios from 'axios';
 import { baseUrl } from '../baseUrl';
 import { useParams } from 'react-router-dom';
+import SubmissionCode from '../components/ProblemSections/SubmissionCode';
 
 const ProblemDescription = () => {
 
   //to obtain Slug from the URL
   const params=useParams()
   const [auth,setAuth]=useAuthContext()
+  const [submissionCode,setSubmissionCode]=useState('') //The code that comes up when user clicks a submission
+  const [editorCode,setEditorCode]=useState(true)  //Checks whether submission code should be opened up or editor code
  
 
    const [active,setActive]=useState({ //toggle one of the above two components in the left section
@@ -48,8 +51,6 @@ const ProblemDescription = () => {
     const [success,setSuccess]=useState(true) //indicates whether all test cases passed or not
     const [totalTestCases,setTotalTestCases]=useState(0) //gets a list of all hidden testcases
     
-
-
 
      const [raw,setRaw]=useState(false) //toggle for custom test cases
 
@@ -121,12 +122,11 @@ const ProblemDescription = () => {
         
           //Concatenating the Code with the main function and Header File
 
-          let concatenatedCode = headerFile+code+mainFunction
+          const concatenatedCode = headerFile+code+mainFunction
           pistonFormat.files[0].content=concatenatedCode
-          // console.log(pistonFormat.files[0].content)
-          // console.log(pistonFormat)
 
            const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
+           setCode(userCode)
            if(data.run?.signal==='SIGKILL')
            setInfLoopError(true)
            else if(raw===true && !data.compile?.stderr && !data.run?.stderr) //this indicates that for custom inputs where there is no runtime or compile time error set the generated output for the custom input.
@@ -174,7 +174,7 @@ const ProblemDescription = () => {
         setPassed(0)  // This number tells us how many hidden test cases have passed
         
         pistonFormat.stdin=problem.hiddenTestCases
-        let concatenatedCode = headerFile+code+mainFunction
+        const concatenatedCode = headerFile+code+mainFunction
         pistonFormat.files[0].content=concatenatedCode
         const {data}=await axios.post('https://emkc.org/api/v2/piston/execute',pistonFormat)
 
@@ -188,6 +188,16 @@ const ProblemDescription = () => {
             })
             setSplit(true)        //popping up the result section even if submit button is clicked without test case section being opened
             setInfLoopError(true)
+            await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+              problemId:problem._id,
+              userId:auth.user.userId,
+              status:'Runtime Error',
+              language:language.label,
+              user_code:code,
+              passed:'',
+              hidden_testcases:'',
+              errors:'Infinite Loop Error',
+            })
           }
 
 
@@ -200,7 +210,18 @@ const ProblemDescription = () => {
             return updateActive
             })
             setSplit(true)
-              setCompileError(data.compile?.stderr)
+            setCompileError(data.compile?.stderr)
+            await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+              problemId:problem._id,
+              userId:auth.user.userId,
+              status:'Compile Error',
+              language:language.label,
+              user_code:code,
+              passed:'',
+              hidden_testcases:'',
+              errors:data.compile.stderr,
+            })
+
            }
            
            else if(language.value==='py' && data.run.stderr)
@@ -213,6 +234,18 @@ const ProblemDescription = () => {
               })
               setSplit(true)
                setCompileError(data.run?.stderr)
+
+               await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+              problemId:problem._id,
+              userId:auth.user.userId,
+              status:'Compile Error',
+              language:language.label,
+              user_code:code,
+              passed:'',
+              hidden_testcases:'',
+              errors:data.run.stderr,
+            })
+
            }
            
            else
@@ -241,6 +274,16 @@ const ProblemDescription = () => {
                   return updateActive
                   })
                   setSplit(false)
+                  await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+                  problemId:problem._id,
+                  userId:auth.user.userId,
+                  status:'Accepted',
+                  language:language.label,
+                  user_code:code,
+                  passed:'',
+                  hidden_testcases:'',
+                  errors:'',
+                  })
                }
                else
                {
@@ -251,12 +294,23 @@ const ProblemDescription = () => {
                   return updateActive
                   })
                   setSplit(true)
-                  console.log('Some test cases failed')
+                  await axios.post(`${baseUrl}/api/submissions/create-submission`,{
+                  problemId:problem._id,
+                  userId:auth.user.userId,
+                  status:'Wrong Answer',
+                  language:language.label,
+                  user_code:code,
+                  passed:passed,
+                  hidden_testcases:totalTestCases,
+                  errors:'',
+                  })
                }
 
              
           }
           setPending(false)
+
+
 
     }
 
@@ -334,13 +388,17 @@ const ProblemDescription = () => {
     <div className="row">
       <div className="col-6" style={{"paddingRight":"0px"}}>
         <div style={{ marginTop: '0.5rem' }}>
-          <ProblemDescHeader active={active} setActive={setActive} />
-          {active.description ? <ProblemDesc /> : <Submissions slug={params.slug} email={auth.user.email}/>}
+          <ProblemDescHeader active={active} setActive={setActive}
+           setEditorCode={setEditorCode} setSplit={setSplit}/>
+          {active.description ? <ProblemDesc /> : <Submissions slug={params.slug} email={auth.user.email}
+          submissionCode={submissionCode} setSubmissionCode={setSubmissionCode} 
+          editorCode={editorCode} setEditorCode={setEditorCode} setSplit={setSplit}/>}
         </div>
       </div>
       <div className="col-6" style={{"paddingLeft":"0px"}}> 
         <div style={{ minHeight: '45%' }}>
-          <Code split={split} code={code} setCode={setCode} />
+          {editorCode?<Code split={split} code={code} setCode={setCode} />:
+          <SubmissionCode submissionCode={submissionCode} split={split}/>}
         </div>
         <div style={{ overflowY: 'scroll', maxHeight: '38%' }}>
           {split && (

@@ -1,11 +1,13 @@
 import React,{useState} from 'react';
 
-const ProblemDescHeader = ({active,setActive}) => {
+const ProblemDescHeader = ({active,setActive,setEditorCode,setSplit}) => {
     const handleDescClick=()=>{
        const newActive={...active}
        newActive.description=true
        newActive.submissions=false
        setActive(newActive)
+       setSplit(true)
+       setEditorCode(true)
     } 
     //Keeping only one of description or submissions tab active at any point of time in the left section
 
