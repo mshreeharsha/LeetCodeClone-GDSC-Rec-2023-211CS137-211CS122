@@ -56,7 +56,7 @@ const ListOfProblems = ({problems}) => {
                 <tbody>
                     {problems.map((problem, index) => (
                         <tr key={problem._id} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
-                            <td style={{'textAlign':'center'}}>{(user?.solvedProblems.includes(problem._id))?<FontAwesomeIcon icon={faCheckCircle} styles={{'color':'green'}} />:(user?.attemptedProblems.includes(problem._id))?<FontAwesomeIcon icon={faCircle} style={{'color':'orange','font-weight':'bold'}} />:""}</td>
+                            {(user?.length!==0)?<td style={{'textAlign':'center'}}>{(user && user?.solvedProblems.includes(problem._id))?<FontAwesomeIcon icon={faCheckCircle} style={{'color':'green','fontWeight':'bold'}} />:(user && user?.attemptedProblems.includes(problem._id))?<FontAwesomeIcon icon={faCircle} style={{'color':'orange','fontWeight':'bold'}} />:""}</td>:<td></td>}
                             <td ><Link to={`/problems/${problem.slug}`} className='problem-link'>{problem.problemNo}. {problem.title}</Link></td>
                             <td>{problem.category.name}</td>
                             <td className={getDifficultyClass(problem.difficulty)}>{problem.difficulty}</td>
