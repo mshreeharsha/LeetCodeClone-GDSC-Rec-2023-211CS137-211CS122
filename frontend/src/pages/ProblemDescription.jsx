@@ -389,7 +389,7 @@ const ProblemDescription = () => {
         <div style={{ marginTop: '0.5rem' }}>
           <ProblemDescHeader active={active} setActive={setActive}
            setEditorCode={setEditorCode} setSplit={setSplit}/>
-          {active.description ? <ProblemDesc /> : <Submissions slug={params.slug} email={auth.user.email}
+          {active.description ? <ProblemDesc /> : (auth.user===null)?<div className='container text-center'><p>Login to View Submissions</p></div>: <Submissions slug={params.slug} email={auth.user.email}
           submissionCode={submissionCode} setSubmissionCode={setSubmissionCode} 
           editorCode={editorCode} setEditorCode={setEditorCode} setSplit={setSplit}/>}
         </div>

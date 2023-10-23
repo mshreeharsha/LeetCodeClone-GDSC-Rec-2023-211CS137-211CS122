@@ -4,7 +4,6 @@ import axios from 'axios'
 import { baseUrl } from '../../baseUrl';
 
 import {CDropdown,CDropdownItem,CDropdownToggle,CDropdownMenu} from '@coreui/react'
-import { useAuthContext } from '../../context/AuthContext'; 
 const Submissions = ({slug,email,submissionCode,setSubmissionCode,
   editorCode,setEditorCode,setSplit}) => {
   const [submissions,setSubmissions]=useState([])
