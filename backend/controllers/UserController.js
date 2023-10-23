@@ -98,4 +98,71 @@ const loginController = async(req,res)=>{
   }
 }
 
-module.exports={registerController,loginController}
+const addToListController = async(req,res)=>{
+  try{
+    const {status,pid}=req.body
+    const uid=req.params.uid
+    const user = await UserModel.findById(uid);
+    if (!user) {
+      return res.status(404).send({ 
+        success:false,
+        message: 'User not found' 
+      });
+    }
+    if(status==="Attempted"){
+      const solvedIndex= user.solvedProblems.indexOf(pid);
+      if(solvedIndex===-1){
+        const attemptedIndex = user.attemptedProblems.indexOf(pid);
+        if (attemptedIndex === -1) {
+          user.attemptedProblems.push(pid);
+        }
+        await user.save();
+      }
+    }
+    else if(status==="Solved"){
+      const solvedIndex= user.solvedProblems.indexOf(pid);
+      if(solvedIndex===-1){
+        const attemptedIndex = user.attemptedProblems.indexOf(pid);
+        if (attemptedIndex === -1) {
+          user.solvedProblems.push(pid);
+        }
+        else if(attemptedIndex !==-1){
+          // Remove the problemId from "AttemptedProblems"
+          user.attemptedProblems.splice(attemptedIndex, 1);
+          user.solvedProblems.push(pid);
+        }
+        await user.save();
+      }
+    }
+    res.status(201).send({
+      success:true,
+      message:'Problem Id Successfully added to the User List'
+    })
+  }
+  catch(error){
+    res.status(400).send({
+      success:false,
+      message:error.message
+    })
+  }
+}
+
+const getUserDetailsController = async(req,res)=>{
+  try{
+    const uid=req.params.uid
+    const user = await UserModel.findById(uid)
+    res.status(200).send({
+      success:true,
+      message:'User Fetched Successfully',
+      user
+    })
+  }
+  catch(error){
+    res.status(404).send({
+      success: false,
+      message:error.message
+    })
+  }
+}
+
+module.exports={registerController,loginController,addToListController,getUserDetailsController}
