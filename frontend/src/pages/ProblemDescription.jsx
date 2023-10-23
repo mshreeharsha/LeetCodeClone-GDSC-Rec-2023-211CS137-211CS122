@@ -412,9 +412,22 @@ const ProblemDescription = () => {
       return () => clearInterval(saveCodeInterval);
     }, [code,problem._id,language.value,auth.user?.userId]); // Trigger when code changes
 
+
+    //Reseting the code to BoilerPlate on Click
+    const resetCode = ()=>{
+      console.log("clicked")
+      const desiredCode = boilerPlate.boilerPlate.find(obj => obj.language === 'cpp');
+      if (desiredCode) {
+        if(auth.user!=null){
+          localStorage.removeItem(`problem_${problem._id}_${language.value}_${auth.user.userId}`)
+        }
+        setCode(desiredCode?.initialCode)
+      }
+    }
+
   return (
     <Layout type="ProblemHeader" questionNo={problem.problemNo} 
-      language={language} setLanguage={setLanguage}>
+      language={language} setLanguage={setLanguage} resetCode={resetCode}>
     <div className="row">
       <div className="col-6" style={{"paddingRight":"0px"}}>
         <div style={{ marginTop: '0.5rem' }}>

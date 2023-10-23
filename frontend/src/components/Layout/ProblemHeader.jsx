@@ -6,11 +6,12 @@ import Timer from '../Timer'
 import { FaBars } from 'react-icons/fa'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft,faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faUndo } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios'
 import { baseUrl } from '../../baseUrl'
 import LanguageHeader from './LanguageHeader'
 
-const ProblemHeader = ({questionNo,language,setLanguage}) => {
+const ProblemHeader = ({questionNo,language,setLanguage,resetCode}) => {
   const navigate=useNavigate()
   const [auth,setAuth]=useAuthContext()
   const [type,setType]=useState('')
@@ -97,23 +98,24 @@ const ProblemHeader = ({questionNo,language,setLanguage}) => {
                             <NavLink to='/' className="nav-link" aria-current="page" href="#">Home</NavLink>
                         </li> */}
                         
-                        <li className='nav-item mr-5'><LanguageHeader language={language} 
+                        <li className='nav-item mr-5' style={{'margin':'auto 2px'}}><LanguageHeader language={language} 
                         setLanguage={setLanguage}/></li>
-                        <li className='nav-item mr-5'><Timer/></li>
-                        {!auth.user?(<><li className="nav-item">
+                        <button className='nav-item' style={{'margin':'auto 2px'}} onClick={()=>{resetCode()}}><FontAwesomeIcon icon={faUndo}/></button>
+                        <li className='nav-item mr-5' style={{'margin':'auto 2px'}}><Timer/></li>
+                        {!auth.user?(<><li className="nav-item" style={{'margin':'auto 2px'}}>
                             <button onClick={()=>{setType('register');setOpen(true)}} className="btn btn-warning" style={{"color":"white"}}>SignUp</button>
                         {/* <NavLink to='/register' className="nav-link" href="#">SignUp</NavLink> */}
                         </li>
-                        <li className="nav-item">
+                        <li className="nav-item" style={{'margin':'auto 2px'}}>
                             <button onClick={()=>{setType('login');setOpen(true)}} className="btn btn-warning" style={{"color":"white","marginLeft":"3px"}}>Login</button>
                         {/* <NavLink to='/login' className="nav-link" href="#">Login</NavLink> */}
                         </li></>):(<>
-                        <li className="nav-item">
+                        <li className="nav-item" style={{'margin':'auto 2px'}}>
                             <NavLink href="#" className="nav-link">
                                 {auth?.user?.username}
                             </NavLink>
                         </li>
-                        <li className="nav-item">
+                        <li className="nav-item" style={{'margin':'auto 2px'}}>
                             <button onClick={handleLogout} className="btn btn-warning" style={{"color":"white","marginLeft":"3px"}}>Logout</button>
                             {/* <NavLink className="nav-link" onClick={handleLogout} to='/login' href="#">Logout</NavLink> */}
                         </li>

@@ -33,7 +33,7 @@ const Timer = () => {
   return (
     <>
        {(auth.user && !timer)?(
-        <li><FaClock size={32} onClick={()=>setTimer(true)} style={{'cursor':'pointer'}}/></li>
+        <li><FaClock size={24} onClick={()=>setTimer(true)} style={{'cursor':'pointer'}}/></li>
        ):(auth.user && timer)?(
         <li>{formatTime()} <FiRefreshCcw onClick={()=>{setTimer(false);setTime(0)}} style={{'cursor':'pointer'}}/></li>
         ):''}
