@@ -15,6 +15,7 @@ import axios from 'axios';
 import { baseUrl } from '../baseUrl';
 import { useParams } from 'react-router-dom';
 import SubmissionCode from '../components/ProblemSections/SubmissionCode';
+import { useUserCode } from '../context/UserCodeContext';
 
 const ProblemDescription = () => {
 
@@ -29,7 +30,7 @@ const ProblemDescription = () => {
         description:true,
         submissions:false,
     })
-    const [code,setCode]=useState('')                  //The code written in the code editor by the user
+    const [code,setCode]=useUserCode()                 //The code written in the code editor by the user
     const [customOutput,setCustomOutput]=useState([])  //The output obtained for the custom input that is typed by the user
     const [customInput,setCustomInput]=useState([])    //The custom input that is typed by the user
     const [pending,setPending]=useState(false)         //Piston API takes time to evaluate the custom input
@@ -356,8 +357,10 @@ const ProblemDescription = () => {
           if (desiredCode) {
 
             //Fetching the Prev Code from the Local Storage
-
-            const alreadyWrittenCode = localStorage.getItem(`problem_${problem._id}_${language.value}`)
+            let alreadyWrittenCode = null
+            if(auth.user!=null){
+              alreadyWrittenCode = localStorage.getItem(`problem_${problem._id}_${language.value}_${auth.user.userId}`)
+            }
             if(alreadyWrittenCode===null) setCode(desiredCode?.initialCode);
             else setCode(alreadyWrittenCode)
 
@@ -384,14 +387,16 @@ const ProblemDescription = () => {
       const desiredCode = boilerPlate?.boilerPlate?.find(obj => obj.language === language?.value);
       
       //Fetching the Already Written Code from Local Storage
-      
-      const alreadyWrittenCode = localStorage.getItem(`problem_${problem._id}_${language.value}`)
+      let alreadyWrittenCode =null
+      if(auth.user!=null){
+        alreadyWrittenCode = localStorage.getItem(`problem_${problem._id}_${language.value}_${auth.user.userId}`)
+      }
       if(alreadyWrittenCode===null) setCode(desiredCode?.initialCode);
       else setCode(alreadyWrittenCode)
 
       setMainFunction(desiredCode?.mainFunction)
       setHeaderFile(desiredCode?.headerFilesCode)
-    },[language.value,boilerPlate?.boilerPlate,problem._id])
+    },[language.value,boilerPlate?.boilerPlate,problem._id,auth.user?.userId])
 
 
     //Saving the Code to the LocalStorage at regular intervals
@@ -400,12 +405,12 @@ const ProblemDescription = () => {
     useEffect(() => {
       // Define a function to periodically save code to localStorage
       const saveCodeInterval = setInterval(() => {
-        localStorage.setItem(`problem_${problem._id}_${language.value}`,code)
+        if(auth.user!==null)localStorage.setItem(`problem_${problem._id}_${language.value}_${auth.user.userId}`,code)
       }, 1000); // Save every 1 seconds 
 
       // Cleanup the interval when the component unmounts
       return () => clearInterval(saveCodeInterval);
-    }, [code,problem._id,language.value]); // Trigger when code changes
+    }, [code,problem._id,language.value,auth.user?.userId]); // Trigger when code changes
 
   return (
     <Layout type="ProblemHeader" questionNo={problem.problemNo} 
