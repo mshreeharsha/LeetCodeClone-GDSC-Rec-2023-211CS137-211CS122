@@ -15,6 +15,7 @@ import axios from 'axios';
 import { baseUrl } from '../baseUrl';
 import { useParams } from 'react-router-dom';
 import SubmissionCode from '../components/ProblemSections/SubmissionCode';
+import { useUserCode } from '../context/UserCodeContext';
 
 const ProblemDescription = () => {
 
@@ -29,7 +30,7 @@ const ProblemDescription = () => {
         description:true,
         submissions:false,
     })
-    const [code,setCode]=useState('')                  //The code written in the code editor by the user
+    const [code,setCode]=useUserCode()                 //The code written in the code editor by the user
     const [customOutput,setCustomOutput]=useState([])  //The output obtained for the custom input that is typed by the user
     const [customInput,setCustomInput]=useState([])    //The custom input that is typed by the user
     const [pending,setPending]=useState(false)         //Piston API takes time to evaluate the custom input
@@ -354,7 +355,15 @@ const ProblemDescription = () => {
           const desiredCode = boilerPlate.boilerPlate.find(obj => obj.language === 'cpp');
     
           if (desiredCode) {
-            setCode(desiredCode.initialCode);
+
+            //Fetching the Prev Code from the Local Storage
+            let alreadyWrittenCode = null
+            if(auth.user!=null){
+              alreadyWrittenCode = localStorage.getItem(`problem_${problem._id}_${language.value}_${auth.user.userId}`)
+            }
+            if(alreadyWrittenCode===null) setCode(desiredCode?.initialCode);
+            else setCode(alreadyWrittenCode)
+
             setMainFunction(desiredCode.mainFunction);
             setHeaderFile(desiredCode?.headerFilesCode)
           } else {
@@ -376,14 +385,49 @@ const ProblemDescription = () => {
 
     useEffect(()=>{
       const desiredCode = boilerPlate?.boilerPlate?.find(obj => obj.language === language?.value);
+      
+      //Fetching the Already Written Code from Local Storage
+      let alreadyWrittenCode =null
+      if(auth.user!=null){
+        alreadyWrittenCode = localStorage.getItem(`problem_${problem._id}_${language.value}_${auth.user.userId}`)
+      }
+      if(alreadyWrittenCode===null) setCode(desiredCode?.initialCode);
+      else setCode(alreadyWrittenCode)
+
       setMainFunction(desiredCode?.mainFunction)
-      setCode(desiredCode?.initialCode)
       setHeaderFile(desiredCode?.headerFilesCode)
-    },[language.value,boilerPlate?.boilerPlate])
+    },[language.value,boilerPlate?.boilerPlate,problem._id,auth.user?.userId])
+
+
+    //Saving the Code to the LocalStorage at regular intervals
+
+    // Save code to localStorage every 1 seconds
+    useEffect(() => {
+      // Define a function to periodically save code to localStorage
+      const saveCodeInterval = setInterval(() => {
+        if(auth.user!==null)localStorage.setItem(`problem_${problem._id}_${language.value}_${auth.user.userId}`,code)
+      }, 1000); // Save every 1 seconds 
+
+      // Cleanup the interval when the component unmounts
+      return () => clearInterval(saveCodeInterval);
+    }, [code,problem._id,language.value,auth.user?.userId]); // Trigger when code changes
+
+
+    //Reseting the code to BoilerPlate on Click
+    const resetCode = ()=>{
+      console.log("clicked")
+      const desiredCode = boilerPlate.boilerPlate.find(obj => obj.language === 'cpp');
+      if (desiredCode) {
+        if(auth.user!=null){
+          localStorage.removeItem(`problem_${problem._id}_${language.value}_${auth.user.userId}`)
+        }
+        setCode(desiredCode?.initialCode)
+      }
+    }
 
   return (
     <Layout type="ProblemHeader" questionNo={problem.problemNo} 
-      language={language} setLanguage={setLanguage}>
+      language={language} setLanguage={setLanguage} resetCode={resetCode}>
     <div className="row">
       <div className="col-6" style={{"paddingRight":"0px"}}>
         <div style={{ marginTop: '0.5rem' }}>
