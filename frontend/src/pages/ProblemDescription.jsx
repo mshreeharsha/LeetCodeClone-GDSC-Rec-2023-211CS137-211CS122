@@ -354,7 +354,13 @@ const ProblemDescription = () => {
           const desiredCode = boilerPlate.boilerPlate.find(obj => obj.language === 'cpp');
     
           if (desiredCode) {
-            setCode(desiredCode.initialCode);
+
+            //Fetching the Prev Code from the Local Storage
+
+            const alreadyWrittenCode = localStorage.getItem(`problem_${problem._id}_${language.value}`)
+            if(alreadyWrittenCode===null) setCode(desiredCode?.initialCode);
+            else setCode(alreadyWrittenCode)
+
             setMainFunction(desiredCode.mainFunction);
             setHeaderFile(desiredCode?.headerFilesCode)
           } else {
@@ -376,10 +382,30 @@ const ProblemDescription = () => {
 
     useEffect(()=>{
       const desiredCode = boilerPlate?.boilerPlate?.find(obj => obj.language === language?.value);
+      
+      //Fetching the Already Written Code from Local Storage
+      
+      const alreadyWrittenCode = localStorage.getItem(`problem_${problem._id}_${language.value}`)
+      if(alreadyWrittenCode===null) setCode(desiredCode?.initialCode);
+      else setCode(alreadyWrittenCode)
+
       setMainFunction(desiredCode?.mainFunction)
-      setCode(desiredCode?.initialCode)
       setHeaderFile(desiredCode?.headerFilesCode)
-    },[language.value,boilerPlate?.boilerPlate])
+    },[language.value,boilerPlate?.boilerPlate,problem._id])
+
+
+    //Saving the Code to the LocalStorage at regular intervals
+
+    // Save code to localStorage every 1 seconds
+    useEffect(() => {
+      // Define a function to periodically save code to localStorage
+      const saveCodeInterval = setInterval(() => {
+        localStorage.setItem(`problem_${problem._id}_${language.value}`,code)
+      }, 1000); // Save every 1 seconds 
+
+      // Cleanup the interval when the component unmounts
+      return () => clearInterval(saveCodeInterval);
+    }, [code,problem._id,language.value]); // Trigger when code changes
 
   return (
     <Layout type="ProblemHeader" questionNo={problem.problemNo} 
