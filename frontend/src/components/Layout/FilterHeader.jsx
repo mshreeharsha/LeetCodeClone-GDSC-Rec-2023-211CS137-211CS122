@@ -109,7 +109,7 @@ const FilterHeader = ()=>{
     //Selecting Multiple Tags Handling Function
     const handleOptionClick = (option) => {
         // Check if the option is already selected
-        if (tags.includes(option)) {
+        if (tags?.includes(option)) {
           // Deselect the option
           setTags(tags.filter((item) => item !== option));
         } else {
@@ -126,7 +126,7 @@ const FilterHeader = ()=>{
                 {category.map((option) => (
                     <Menu.Item key={option.name} onClick={() => handleOptionClick(option._id)}>
                         <Button
-                        type={tags.includes(option._id) ? 'primary' : 'default'}
+                        type={tags?.includes(option._id) ? 'primary' : 'default'}
                         shape="round">
                         {option.name}
                         </Button>
