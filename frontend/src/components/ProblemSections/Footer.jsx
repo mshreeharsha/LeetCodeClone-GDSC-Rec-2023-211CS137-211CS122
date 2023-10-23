@@ -3,9 +3,13 @@ import ClipLoader from "react-spinners/ClipLoader"
 import '../styles/Footer.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp,faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { useAuthContext } from '../../context/AuthContext';
 const Footer = ({handleSplitter,split,runCodeHandler,
   submitButtonHandler,pending,run,submit}) => {
    const [hover,setHover]=useState(false)  //hover button
+
+   //Obtaining the auth context to check whether user is Logged in or not
+   const [auth,setAuth]=useAuthContext()
 
   return (
     <div className="problem-footer" style={{'position':'absolute','bottom':'0','width':'48%','display':'flex','alignItems':'center','justifyContent':'space-between'}}>
@@ -40,7 +44,10 @@ const Footer = ({handleSplitter,split,runCodeHandler,
           />:''}
          
         </button>
-      <button className="btn btn-success" onClick={submitButtonHandler}
+      {auth.user===null?<button className="btn btn-danger" 
+       disabled={true}>
+        <span>Login To Submit</span></button>:
+        <button className="btn btn-success" onClick={submitButtonHandler}
        disabled={pending?true:false}>
         <span>Submit</span>
          {(pending && submit)?<ClipLoader
@@ -49,7 +56,7 @@ const Footer = ({handleSplitter,split,runCodeHandler,
           aria-label="Loading Spinner"
           data-testid="loader"
           />:''}
-        </button> 
+        </button> }
       </ul>
     </div>  
   );
