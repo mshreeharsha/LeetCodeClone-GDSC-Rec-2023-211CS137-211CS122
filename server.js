@@ -11,6 +11,9 @@ const cors=require('cors')
 const mongoose = require('mongoose');
 //mongoose is used for object data modelling. Structure to document databases
 
+//For Deployment
+const path = require('path')
+
 const userRoutes=require('./routes/UserRoute')
 const categoryRoutes=require('./routes/CategoryRoute')
 const problemRoutes=require('./routes/ProblemRoute')
@@ -39,6 +42,8 @@ app.use(cors({
     origin:process.env.FRONTEND_URL
 }))
 
+app.use(express.static(path.join(__dirname,'./frontent/build')))
+
 //routes
 app.use('/api/user',userRoutes)
 app.use('/api/categories',categoryRoutes)
@@ -46,6 +51,10 @@ app.use('/api/problems',problemRoutes)
 app.use('/api/boilerPlate',boilerPlateCodeRoutes)
 app.use('/api/submissions',submissionRoutes)
 
+
+app.use("*",function(req,res){
+    res.sendFile(path.join(__dirname,'./frontend/build/index.html'))
+})
 
 const PORT=process.env.PORT||5000;
 const development=process.env.DEV_MODE;

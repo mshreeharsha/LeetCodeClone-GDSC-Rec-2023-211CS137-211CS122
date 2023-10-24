@@ -4,7 +4,6 @@ const slugify = require('slugify')
 const createCategoryController = async(req,res)=>{
     try {
         const {name}=req.body;
-        console.log(name)
         if(!name){
             return res.status(401).send({
                 message:'Category Name is Required'
@@ -27,7 +26,6 @@ const createCategoryController = async(req,res)=>{
         });
 
     } catch (error) {
-        console.log(error)
         res.status(500).send({
             success:false,
             error,

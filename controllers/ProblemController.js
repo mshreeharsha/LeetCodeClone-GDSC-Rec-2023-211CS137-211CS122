@@ -85,7 +85,6 @@ const getAllProblemsController = async(req,res)=>{
         //For displaying fetching only required items, sampleTestCases and Description are not necessary
         const problems= await ProblemModel.find({}).populate('category').select("-sampleTestCases -constraints -description").sort({createdAt:-1});
 
-        console.log(problems);
         res.status(200).send({
             success:true,
             count:problems.length,
@@ -93,7 +92,6 @@ const getAllProblemsController = async(req,res)=>{
             problems
         });
     } catch (error) {
-        console.log(error.message)
         res.status(500).send({
             success:false,
             message:'Error in Getting the Problems',
@@ -143,13 +141,11 @@ const getTotalNoOfProblems = async(req,res)=>{
   try {
     //Getting the total count of no of problems 
     const total = await ProblemModel.countDocuments({});
-    console.log(total);
     res.status(200).send({
         success:true,
         total
     });
 } catch (error) {
-    console.log(error)
     res.status(400).send({
         success:false,
         message:'Error in Counting Total no of Problems',
@@ -211,7 +207,6 @@ const getProblemsFilter= async(req,res)=>{
     }
   } 
   catch (error) {
-    console.log(error)
     res.status(400).send({
         success:false,
         message:'Error in Filter Problems',
@@ -232,14 +227,12 @@ const searchProblemController = async(req,res) => {
               {description :{$regex : keyword , $options: "i"}},
           ]
       }).populate("category");
-      console.log(results)
       res.status(201).send({
         success:true,
         message:'Problems Fetched Successfully',
         results
       })
   } catch (error) {
-      console.log(error);
       res.status(400).send({
           success: false,
           message: "Error in search Problem api",
