@@ -426,7 +426,7 @@ const ProblemDescription = () => {
     const solvedAndAttempted = async(status)=>{
       try{
         const pid=problem._id
-        if(status==='Attempted' && auth.user!=null){
+        if((status==='Attempted' || status==='Solved') && auth.user!=null){
           const response = await axios.patch(`${baseUrl}/api/user/addToList/${auth.user.userId}`,{status,pid})
         }
       }

@@ -38,7 +38,7 @@ const Submissions = ({slug,email,submissionCode,setSubmissionCode,
        <h3>Submissions</h3>
        <div>
         <>
-          <CDropdown size="sm" style={{'margin-right':'1rem','width':'8rem'}}>
+          <CDropdown size="sm" style={{'margin-right':'5.5rem','width':'8rem'}}>
             <CDropdownToggle color="white" size="sm"><strong>Status</strong></CDropdownToggle>
             <CDropdownMenu size="sm" style={{'max-height':'15rem','overflow-y':'auto','gap':'0.5rem'}}>
              {statusOptions.map((option,index)=>(
@@ -67,7 +67,7 @@ const Submissions = ({slug,email,submissionCode,setSubmissionCode,
                 ))}
              </CDropdownMenu>
           </CDropdown>
-          <span style={{'font-weight':'bold','margin-left':'2rem'}}>
+          <span style={{'font-weight':'bold','margin-left':'8rem'}}>
               Submitted At
           </span>
        </>
@@ -87,18 +87,18 @@ const Submissions = ({slug,email,submissionCode,setSubmissionCode,
        })
        .map((submission,index)=>(
           <div style={{'border-bottom':'2px solid black','height':'3rem','padding':'0.5rem',
-          'cursor':'pointer'}}
+          'cursor':'pointer','display':'grid','grid-template-columns':'1fr 1fr 1fr','margin-left':'2rem'}}
           onClick={()=>{setSubmissionCode(submission);setEditorCode(false);setSplit(false)}}>
-             <span style={{'margin-right':'6rem','font-weight':'bold',
-             'margin-left':'2rem','color':`${submission.status==='Accepted'?'green':'red'}`}}>
+             <span style={{'font-weight':'bold',
+             'color':`${submission.status==='Accepted'?'green':'red'}`}}>
                 {submission.status}
              </span>
              <span>
                 {submission.language}
              </span>
-             <span style={{'margin-left':'3rem'}}>
+             <span>
               {`${new Date(submission.createdAt).getDate()}/${new Date(submission.createdAt).getMonth()+1}/${new Date(submission.createdAt)
-              .getFullYear()} ${new Date(submission.createdAt).getHours()}:${new Date(submission.createdAt).getMinutes()}:${new Date(submission.createdAt).getSeconds()}`}
+              .getFullYear()}`}
              </span>
           </div>
        ))}
