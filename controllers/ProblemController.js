@@ -1,4 +1,5 @@
 const ProblemModel=require('../models/ProblemModel')
+const UserModel=require('../models/UserModel')
 const slugify=require('slugify')
 
 const createProblemController=async(req,res)=>{
@@ -84,7 +85,6 @@ const getAllProblemsController = async(req,res)=>{
         //For displaying fetching only required items, sampleTestCases and Description are not necessary
         const problems= await ProblemModel.find({}).populate('category').select("-sampleTestCases -constraints -description").sort({createdAt:-1});
 
-        console.log(problems);
         res.status(200).send({
             success:true,
             count:problems.length,
@@ -92,7 +92,6 @@ const getAllProblemsController = async(req,res)=>{
             problems
         });
     } catch (error) {
-        console.log(error.message)
         res.status(500).send({
             success:false,
             message:'Error in Getting the Problems',
@@ -142,13 +141,11 @@ const getTotalNoOfProblems = async(req,res)=>{
   try {
     //Getting the total count of no of problems 
     const total = await ProblemModel.countDocuments({});
-    console.log(total);
     res.status(200).send({
         success:true,
         total
     });
 } catch (error) {
-    console.log(error)
     res.status(400).send({
         success:false,
         message:'Error in Counting Total no of Problems',
@@ -159,7 +156,8 @@ const getTotalNoOfProblems = async(req,res)=>{
 
 const getProblemsFilter= async(req,res)=>{
   try {
-    const {difficulty,tags}=req.body;
+    const {difficulty,tags,status}=req.body;
+    const uid = req.params.uid
     let args={};
     if(difficulty.length>0){
         args.difficulty=difficulty;
@@ -167,14 +165,48 @@ const getProblemsFilter= async(req,res)=>{
     if(tags.length>0){
         args.category=tags;
     }
-    const problems=await ProblemModel.find(args).populate("category");
-    res.status(200).send({
+    if(status.length===0){
+      const problems=await ProblemModel.find(args).populate("category");
+      return res.status(200).send({
         success:true,
         problems
     });
+    }
+    else{
+      const user=await UserModel.findById(uid)
+      if (!user) {
+        return res.status(404).send({ 
+          success:false,
+          message: 'User not found' 
+        });
+      }
+      if(status==='Solved'){
+        const problems = await ProblemModel.find({ _id: { $in: user.solvedProblems } }).populate("category")
+        return res.status(200).send({
+          success:true,
+          message:'Fetched Solved Problems Successfully',
+          problems
+        })
+      }
+      else if(status==='Attempted'){
+        const problems = await ProblemModel.find({ _id: { $in: user.attemptedProblems } }).populate("category")
+        return res.status(200).send({
+          success:true,
+          message:'Fetched Attempted Problems Successfully',
+          problems
+        })
+      }
+      else{
+        const problems = await ProblemModel.find({}).populate("category")
+        return res.status(200).send({
+          success:true,
+          message:'Fetched All Problems Successfully',
+          problems
+        })
+      }
+    }
   } 
   catch (error) {
-    console.log(error)
     res.status(400).send({
         success:false,
         message:'Error in Filter Problems',
@@ -195,14 +227,12 @@ const searchProblemController = async(req,res) => {
               {description :{$regex : keyword , $options: "i"}},
           ]
       }).populate("category");
-      console.log(results)
       res.status(201).send({
         success:true,
         message:'Problems Fetched Successfully',
         results
       })
   } catch (error) {
-      console.log(error);
       res.status(400).send({
           success: false,
           message: "Error in search Problem api",

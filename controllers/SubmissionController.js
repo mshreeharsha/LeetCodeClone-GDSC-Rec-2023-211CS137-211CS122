@@ -46,7 +46,6 @@ const createSubmissionController=async(req,res)=>{
 const allSubmissionsController=async(req,res)=>{
    try{
      const {slug,email}=req.params
-     console.log(email)
      if(!slug)
      return res.send({success:false,message:'Enter problem slug'})
      if(!email)
