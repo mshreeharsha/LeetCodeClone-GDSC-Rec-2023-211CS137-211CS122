@@ -42,7 +42,7 @@ app.use(cors({
     origin:process.env.FRONTEND_URL
 }))
 
-app.use(express.static(path.join(__dirname,'./frontend/build/index.html')))
+app.use(express.static(path.join(__dirname,'./frontend/build')))
 
 //routes
 app.use('/api/user',userRoutes)
