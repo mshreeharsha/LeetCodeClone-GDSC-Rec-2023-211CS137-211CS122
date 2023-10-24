@@ -5,8 +5,11 @@ import { baseUrl } from '../../baseUrl';
 import ListOfProblems from '../ListOfProblems';
 import { DownOutlined } from '@ant-design/icons'; // Import the down arrow icon
 import { SearchOutlined } from '@ant-design/icons';
+import { useAuthContext } from '../../context/AuthContext';
 
 const FilterHeader = ()=>{
+
+    const [auth,setAuth]=useAuthContext()
 
     //Fetch Color For Difficulties
     const getDifficultyClass = (difficulty) => {
@@ -41,6 +44,8 @@ const FilterHeader = ()=>{
     //The User Typed Search Value
     const [values,setValues]=useState('')
 
+    const [status,setStatus]=useState('')
+
     const getAllProblems = async () => {
         try {
             const { data } = await axios.get(`${baseUrl}/api/problems/all-problems`);
@@ -71,7 +76,7 @@ const FilterHeader = ()=>{
     const fetchProblemsOnChoice =async()=>{
         try{
             console.log(difficulty)
-            const {data} = await axios.post(`${baseUrl}/api/problems/problem-filter`,{difficulty,tags})
+            const {data} = await axios.post(`${baseUrl}/api/problems/problem-filter/${auth.user?.userId}`,{difficulty,tags,status})
             if(data?.success){                      
                 setProblems(data.problems)   
             }
@@ -85,7 +90,7 @@ const FilterHeader = ()=>{
     }
     useEffect(()=>{
         fetchProblemsOnChoice()
-    },[difficulty,tags])
+    },[difficulty,tags,status])
 
     //Options for Difficulty
     const options = [
@@ -138,14 +143,15 @@ const FilterHeader = ()=>{
 
     //Options for Status
     const optionsStatus = [
+        { value: 'None', label: 'None' },
         { value: 'Solved', label: 'Solved' },
         { value: 'Attempted', label: 'Attempted' },
     ];
 
     const menu3=(
-        <Menu>
+        <Menu disabled={auth.user===null}>
             {optionsStatus.map((option) => (
-            <Menu.Item key={option.value}>
+            <Menu.Item key={option.value} onClick={()=>{setStatus(option.value)}}>
                 {option.label}
             </Menu.Item>
             ))}

@@ -9,7 +9,7 @@ router.get('/all-problems',getAllProblemsController)
 router.get('/single-problem/:slug',getSingleProblemController)
 router.get('/next-problem/:problemNo',getNextProblemController)
 router.get('/total-problems',getTotalNoOfProblems)
-router.post('/problem-filter',getProblemsFilter)
+router.post('/problem-filter/:uid',getProblemsFilter)
 //search based on user entered value
 router.get('/search/:keyword',searchProblemController);
 

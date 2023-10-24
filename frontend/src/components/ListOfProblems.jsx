@@ -10,7 +10,7 @@ const ListOfProblems = ({problems}) => {
     // Function to get the CSS class for difficulty
 
     const [auth,setAuth]=useAuthContext()
-    const [user,setUser]=useState({})
+    const [user,setUser]=useState(null)
 
     const getUserDetails = async()=>{
         try{
@@ -26,6 +26,9 @@ const ListOfProblems = ({problems}) => {
         if(auth.user!==null){
             getUserDetails()
         }
+        else if(auth.user===null){
+            setUser(null)
+        }
     },[auth.user])
 
     const getDifficultyClass = (difficulty) => {
@@ -40,7 +43,6 @@ const ListOfProblems = ({problems}) => {
                 return '';
         }
     };
-
     return (
         <div className="container">
             {(problems)?<><div className="container text-center"><h4>All Problems</h4></div>
@@ -56,7 +58,7 @@ const ListOfProblems = ({problems}) => {
                 <tbody>
                     {problems.map((problem, index) => (
                         <tr key={problem._id} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
-                            {(user?.length!==0)?<td style={{'textAlign':'center'}}>{(user && user?.solvedProblems.includes(problem._id))?<FontAwesomeIcon icon={faCheckCircle} style={{'color':'green','fontWeight':'bold'}} />:(user && user?.attemptedProblems.includes(problem._id))?<FontAwesomeIcon icon={faCircle} style={{'color':'orange','fontWeight':'bold'}} />:""}</td>:<td></td>}
+                            {(user!==null)?<td style={{'textAlign':'center'}}>{(user?.solvedProblems.includes(problem._id))?<FontAwesomeIcon icon={faCheckCircle} style={{'color':'green','fontWeight':'bold'}} />:(user?.attemptedProblems.includes(problem._id))?<FontAwesomeIcon icon={faCircle} style={{'color':'orange','fontWeight':'bold'}} />:""}</td>:<td></td>}
                             <td ><Link to={`/problems/${problem.slug}`} className='problem-link'>{problem.problemNo}. {problem.title}</Link></td>
                             <td>{problem.category.name}</td>
                             <td className={getDifficultyClass(problem.difficulty)}>{problem.difficulty}</td>

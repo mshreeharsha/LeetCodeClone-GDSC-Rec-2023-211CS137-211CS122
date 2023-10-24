@@ -413,8 +413,7 @@ const ProblemDescription = () => {
 
     //Reseting the code to BoilerPlate on Click
     const resetCode = ()=>{
-      console.log("clicked")
-      const desiredCode = boilerPlate.boilerPlate.find(obj => obj.language === 'cpp');
+      const desiredCode = boilerPlate.boilerPlate.find(obj => obj.language === language?.value);
       if (desiredCode) {
         if(auth.user!=null){
           localStorage.removeItem(`problem_${problem._id}_${language.value}_${auth.user.userId}`)

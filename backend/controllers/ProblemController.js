@@ -1,4 +1,5 @@
 const ProblemModel=require('../models/ProblemModel')
+const UserModel=require('../models/UserModel')
 const slugify=require('slugify')
 
 const createProblemController=async(req,res)=>{
@@ -159,7 +160,8 @@ const getTotalNoOfProblems = async(req,res)=>{
 
 const getProblemsFilter= async(req,res)=>{
   try {
-    const {difficulty,tags}=req.body;
+    const {difficulty,tags,status}=req.body;
+    const uid = req.params.uid
     let args={};
     if(difficulty.length>0){
         args.difficulty=difficulty;
@@ -167,11 +169,46 @@ const getProblemsFilter= async(req,res)=>{
     if(tags.length>0){
         args.category=tags;
     }
-    const problems=await ProblemModel.find(args).populate("category");
-    res.status(200).send({
+    if(status.length===0){
+      const problems=await ProblemModel.find(args).populate("category");
+      return res.status(200).send({
         success:true,
         problems
     });
+    }
+    else{
+      const user=await UserModel.findById(uid)
+      if (!user) {
+        return res.status(404).send({ 
+          success:false,
+          message: 'User not found' 
+        });
+      }
+      if(status==='Solved'){
+        const problems = await ProblemModel.find({ _id: { $in: user.solvedProblems } }).populate("category")
+        return res.status(200).send({
+          success:true,
+          message:'Fetched Solved Problems Successfully',
+          problems
+        })
+      }
+      else if(status==='Attempted'){
+        const problems = await ProblemModel.find({ _id: { $in: user.attemptedProblems } }).populate("category")
+        return res.status(200).send({
+          success:true,
+          message:'Fetched Attempted Problems Successfully',
+          problems
+        })
+      }
+      else{
+        const problems = await ProblemModel.find({}).populate("category")
+        return res.status(200).send({
+          success:true,
+          message:'Fetched All Problems Successfully',
+          problems
+        })
+      }
+    }
   } 
   catch (error) {
     console.log(error)
