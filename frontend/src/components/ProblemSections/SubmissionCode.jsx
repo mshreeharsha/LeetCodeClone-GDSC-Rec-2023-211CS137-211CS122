@@ -8,7 +8,7 @@ const SubmissionCode = ({submissionCode,split}) => {
         <div>
         <h6>{auth.user.username}</h6>
         <p>{`${new Date(submissionCode.createdAt).getDate()}/${new Date(submissionCode.createdAt).getMonth()+1}/${new Date(submissionCode.createdAt)
-              .getFullYear()} ${new Date(submissionCode.createdAt).getHours()}:${new Date(submissionCode.createdAt).getMinutes()}:${new Date(submissionCode.createdAt).getSeconds()}`}</p>
+              .getFullYear()}`}</p>
         </div>
         <h4 style={{'color':`${submissionCode.status==='Accepted'?'green':'red'}`}}>
             {submissionCode.status}</h4>
